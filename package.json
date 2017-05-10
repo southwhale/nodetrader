@@ -1,7 +1,7 @@
 {
-  "name": "ctp",
+  "name": "nodetrader",
   "version": "0.0.0",
-  "description": "Futures CTP API wraped by node.js",
+  "description": "trader framework based on nodectp",
   "main": "app.js",
   "private": true,
   "gypfile": true,
