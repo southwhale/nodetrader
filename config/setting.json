@@ -1,0 +1,40 @@
+﻿{
+	"flowpath": "./con",
+	"frontend": {
+		"BrokerID": "4040",
+	  "MdURL": "tcp://180.166.103.21:51213",
+	  "TdURL": "tcp://180.166.103.21:51205"
+	},
+	"defaultRemindLossList": [
+		{
+			"at": 500,
+			"type": "fund"
+		},
+		{
+			"at": 1000,
+			"type": "fund"
+		}
+	],
+	"accountMap": {
+		"369888": {
+			"UserID": "369888",
+			"Password": "****",
+			"FundPassword": "----",
+			"BankID": "5",
+			"Trader": "--",
+			"Email": "****@qq.com",
+			"StopAtLoss": 2000,
+			"StopType": "fund",
+			"RemindLossList": [
+	  		{
+	  			"at": 500,
+	  			"type": "fund"
+	  		},
+	  		{
+	  			"at": 1000,
+	  			"type": "fund"
+	  		}
+	  	]
+		}
+	}
+}

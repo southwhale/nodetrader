@@ -1,0 +1,8 @@
+{
+	"defaultLevel": "ERROR",
+	"level": {
+		"ctpapp": "INFO",
+		"email": "INFO",
+		"schedule": "INFO"
+	}
+}
