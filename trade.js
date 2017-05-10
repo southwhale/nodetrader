@@ -1,10 +1,10 @@
 const logger = require('./lib/logger').ctpapp;
 const ctp = require('./lib/ctp');
+const tevent = require('./lib/traderevent');
 
 const object = require('7hoo/object');
-var observer = require('7hoo/observer');
 
-var account = ctp.getAccountByUserID('369863');
+var account = ctp.getAccountByUserID('369888');
 
 var handleMap = {
 	OnFrontConnected: function() {
@@ -86,7 +86,7 @@ var handleMap = {
 
 	OnRspQryTradingAccount: function(data, Rsp, nRequestID,bIsLast) {
 		logger.info('OnRspQryTradingAccount: %j, %j, %s, %s',  data, Rsp, nRequestID,bIsLast);
-		observer.notify('/trade/ReqQryTradingAccount', data);
+		tevent.emit('/trade/ReqQryTradingAccount', data);
 	},
 
 	OnRspFromFutureToBankByFuture: function(data, Rsp, nRequestID,bIsLast) {

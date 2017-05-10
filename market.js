@@ -1,8 +1,9 @@
 const logger = require('./lib/logger').ctpapp;
 const ctp = require('./lib/ctp');
+const tevent = require('./lib/traderevent');
 
 const object = require('7hoo/object');
-var observer = require('7hoo/observer');
+
 
 var account = ctp.getAccountByUserID('369888');
 
