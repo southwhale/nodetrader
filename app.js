@@ -9,6 +9,10 @@ const ctp = require('./lib/ctp');
 const object = require('7hoo/object');
 const lang = require('7hoo/lang');
 
+process.on('uncaughtException', function(err) {
+  logger.info('uncaughtException: %j', err);
+});
+
 ctp.init(setting);
 
 require('./trade');
