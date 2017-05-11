@@ -19,7 +19,7 @@ var handleMap = {
 
 	OnRspUserLogin:function(Login, Rsp, nRequestID, bIsLast) {
 	  logger.info('OnRspUserLogin : %j, %j, %s, %s', Login, Rsp, nRequestID, bIsLast);
-	 	console.log("subscribe:", ctp.md.SubscribeMarketData(['zn1707', 'ru1709', 'rb1710']));
+	 	console.log("SubscribeMarketData:", ctp.md.SubscribeMarketData(['zn1707', 'ru1709', 'rb1710']));
 	},
 
 	OnRspUserLogout: function(Logout, Rsp, nRequestID,bIsLast) {
