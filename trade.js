@@ -112,5 +112,11 @@ object.forEach(handleMap, function(callback, methodName) {
 	ctp.td.On(methodName, callback);
 });
 
+//THOST_TERT_RESTART:从本交易日开始重传 0
+//THOST_TERT_RESUME:从上次收到的续传    1
+//THOST_TERT_QUICK:只传送登录后私有流的内容 2
+ctp.td.SubscribePrivateTopic(2);
+ctp.td.SubscribePublicTopic(2);
+
 ctp.createTdList();
 ctp.registerTdFront();
