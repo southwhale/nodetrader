@@ -23,7 +23,7 @@ function Market(ctp, userID) {
 	};
 
 	this.OnRtnDepthMarketData = function(data) {
-    console.log("OnRtnDepthMarketData:", data);
+    tevent.emit('/market/OnRtnDepthMarketData', data);
 	};
 }).call(Market.prototype);
 

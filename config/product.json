@@ -1,0 +1,214 @@
+{
+    "shfe": {
+        "name": "上期所",
+        "list": [
+            {
+                "name": "沪铜",
+                "code": "cu"
+            },
+            {
+                "name": "沪铝",
+                "code": "al"
+            },
+            {
+                "name": "沪锌",
+                "code": "zn"
+            },
+            {
+                "name": "沪铅",
+                "code": "pb"
+            },
+            {
+                "name": "沪镍",
+                "code": "ni"
+            },
+            {
+                "name": "沪锡",
+                "code": "sn"
+            },
+            {
+                "name": "沪金",
+                "code": "au"
+            },
+            {
+                "name": "沪银",
+                "code": "ag"
+            },
+            {
+                "name": "螺纹",
+                "code": "rb"
+            },
+            {
+                "name": "热卷",
+                "code": "hc"
+            },
+            {
+                "name": "燃油",
+                "code": "fu"
+            },
+            {
+                "name": "沥青",
+                "code": "bu"
+            },
+            {
+                "name": "橡胶",
+                "code": "ru"
+            }
+        ]
+    },
+    "dce": {
+        "name": "大商所",
+        "list": [
+            {
+                "name": "豆粕",
+                "code": "m"
+            },
+            {
+                "name": "豆油",
+                "code": "y"
+            },
+            {
+                "name": "豆一",
+                "code": "a"
+            },
+            {
+                "name": "棕榈",
+                "code": "p"
+            },
+            {
+                "name": "玉米",
+                "code": "c"
+            },
+            {
+                "name": "淀粉",
+                "code": "cs"
+            },
+            {
+                "name": "鸡蛋",
+                "code": "jd"
+            },
+            {
+                "name": "胶板",
+                "code": "bb"
+            },
+            {
+                "name": "纤板",
+                "code": "fb"
+            },
+            {
+                "name": "塑料",
+                "code": "l"
+            },
+            {
+                "name": "PVC",
+                "code": "v"
+            },
+            {
+                "name": "PP",
+                "code": "pp"
+            },
+            {
+                "name": "焦炭",
+                "code": "j"
+            },
+            {
+                "name": "焦煤",
+                "code": "jm"
+            },
+            {
+                "name": "铁矿",
+                "code": "i"
+            }
+        ]
+    },
+    "czce": {
+        "name": "郑商所",
+        "list": [
+            {
+                "name": "白糖",
+                "code": "SR"
+            },
+            {
+                "name": "郑棉",
+                "code": "CF"
+            },
+            {
+                "name": "郑煤",
+                "code": "ZC"
+            },
+            {
+                "name": "玻璃",
+                "code": "FG"
+            },
+            {
+                "name": "PTA",
+                "code": "TA"
+            },
+            {
+                "name": "郑醇",
+                "code": "MA"
+            },
+            {
+                "name": "郑麦",
+                "code": "WH"
+            },
+            {
+                "name": "早稻",
+                "code": "RI"
+            },
+            {
+                "name": "晚稻",
+                "code": "LR"
+            },
+            {
+                "name": "粳稻",
+                "code": "JR"
+            },
+            {
+                "name": "菜籽",
+                "code": "RS"
+            },
+            {
+                "name": "郑油",
+                "code": "OI"
+            },
+            {
+                "name": "菜粕",
+                "code": "RM"
+            },
+            {
+                "name": "硅铁",
+                "code": "SF"
+            },
+            {
+                "name": "锰硅",
+                "code": "SM"
+            }
+        ]
+    },
+    "cffex": {
+        "name": "中金所",
+        "list": [
+            {
+                "name": "沪深300期货",
+                "code": "IF"
+            },
+            {
+                "name": "上证50期货",
+                "code": "IH"
+            },
+            {
+                "name": "中证500期货",
+                "code": "IC"
+            },
+            {
+                "name": "五年国债",
+                "code": "TF"
+            },
+            {
+                "name": "十年国债",
+                "code": "T"
+            }
+        ]
+    }
+}
