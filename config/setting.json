@@ -1,40 +1,76 @@
 ﻿{
-	"flowpath": "./con",
-	"frontend": {
+	"4040": {
+		"flowpath": "./con",
 		"BrokerID": "4040",
 	  "MdURL": "tcp://180.166.103.21:51213",
-	  "TdURL": "tcp://180.166.103.21:51205"
-	},
-	"defaultRemindLossList": [
-		{
-			"at": 500,
-			"type": "fund"
-		},
-		{
-			"at": 1000,
-			"type": "fund"
-		}
-	],
-	"accountMap": {
-		"369888": {
-			"UserID": "369888",
-			"Password": "****",
-			"FundPassword": "----",
-			"BankID": "5",
-			"Trader": "--",
-			"Email": "****@qq.com",
-			"StopAtLoss": 2000,
-			"StopType": "fund",
-			"RemindLossList": [
-	  		{
-	  			"at": 500,
-	  			"type": "fund"
-	  		},
-	  		{
-	  			"at": 1000,
-	  			"type": "fund"
-	  		}
-	  	]
+	  "TdURL": "tcp://180.166.103.21:51205",
+		"defaultRemindLossList": [
+			{
+				"at": 500,
+				"type": "fund"
+			},
+			{
+				"at": 1000,
+				"type": "fund"
+			}
+		],
+		"accountMap": {
+			"369888": {
+				"UserID": "369888",
+				"Password": "123456",
+				"FundPassword": "123456",
+				"BankID": "5",
+				"Trader": "交易员名字一",
+				"Email": "****@qq.com",
+				"Strategy": {
+					"name": "****Strategy",
+					"param": {
+						"param1": "**",
+						"param2": "**",
+						"paramn": "**"
+					}
+				},
+				"StopAtLoss": 2000,
+				"StopType": "fund",
+				"RemindLossList": [
+		  		{
+		  			"at": 500,
+		  			"type": "fund"
+		  		},
+		  		{
+		  			"at": 1000,
+		  			"type": "fund"
+		  		},
+		  		{
+		  			"at": 1500,
+		  			"type": "fund"
+		  		}
+		  	]
+			},
+			"0060000888": {
+				"UserID": "0060000888",
+				"Password": "123456",
+				"FundPassword": "123456",
+				"BankID": "5",
+				"Trader": "交易员名字二",
+				"Email": "****@qq.com",
+				"Strategy": {
+					"name": "****Strategy",
+					"param": {
+						"param1": "**",
+						"param2": "**",
+						"paramn": "**"
+					}
+				},
+				"StopAtLoss": 500,
+				"StopType": "fund",
+				"RemindLossList": [
+		  		{
+		  			"at": 300,
+		  			"type": "fund"
+		  		}
+		  	]
+			}
 		}
 	}
 }

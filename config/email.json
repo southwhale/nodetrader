@@ -5,11 +5,11 @@
 	    "port": 465,
 	    "secure": true,
 	    "auth": {
-	        "user": "admin@iguzhi.cn",
+	        "user": "****@iguzhi.cn",
 	        "pass": "****"
 	    }
 		},
-		"sender": "'爱股指 👥' <admin@iguzhi.cn>"
+		"sender": "'爱股指 👥' <****@iguzhi.cn>"
 	},
 	"receiverList": [
 		"****@qq.com"
