@@ -54,6 +54,7 @@ void WrapTd::Init(v8::Isolate* isolate)
     NODE_SET_PROTOTYPE_METHOD(tpl, "GetApiVersion"                   , GetApiVersion                      );
     NODE_SET_PROTOTYPE_METHOD(tpl, "Init"                            , Init                               );
     NODE_SET_PROTOTYPE_METHOD(tpl, "Release"                         , Release                            );
+    NODE_SET_PROTOTYPE_METHOD(tpl, "Dispose"                         , Dispose                            );
     NODE_SET_PROTOTYPE_METHOD(tpl, "CreateFtdcTraderApi"             , CreateFtdcTraderApi                );
     NODE_SET_PROTOTYPE_METHOD(tpl, "GetTradingDay"                   , GetTradingDay                      );
     NODE_SET_PROTOTYPE_METHOD(tpl, "RegisterFront"                   , RegisterFront                      );
@@ -340,6 +341,14 @@ void WrapTd::Release(const FunctionCallbackInfo<Value>& args)
     WrapTd* obj = node::ObjectWrap::Unwrap<WrapTd>(args.Holder());
     Isolate* isolate = args.GetIsolate();
     obj->GetTdApi()->Release();
+    args.GetReturnValue().Set(Undefined(isolate));
+}
+
+void WrapTd::Dispose(const FunctionCallbackInfo<Value>& args)
+{
+    WrapTd* obj = node::ObjectWrap::Unwrap<WrapTd>(args.Holder());
+    Isolate* isolate = args.GetIsolate();
+    obj->dispose();
     args.GetReturnValue().Set(Undefined(isolate));
 }
 

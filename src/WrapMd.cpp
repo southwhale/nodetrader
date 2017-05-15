@@ -56,6 +56,7 @@ void WrapMd::Init(Isolate* isolate)
     // Prototype
     NODE_SET_PROTOTYPE_METHOD(tpl, "Init", Init);
     NODE_SET_PROTOTYPE_METHOD(tpl, "Release", Release);
+    NODE_SET_PROTOTYPE_METHOD(tpl, "Dispose", Dispose);
     NODE_SET_PROTOTYPE_METHOD(tpl, "CreateFtdcMdApi", CreateFtdcMdApi);
     NODE_SET_PROTOTYPE_METHOD(tpl, "GetApiVersion", GetApiVersion);
     NODE_SET_PROTOTYPE_METHOD(tpl, "GetTradingDay", GetTradingDay);
@@ -164,6 +165,14 @@ void WrapMd::Release(const v8::FunctionCallbackInfo<v8::Value>& args)
     WrapMd* obj = node::ObjectWrap::Unwrap<WrapMd>(args.Holder());
     Isolate* isolate = args.GetIsolate();
     obj->GetMdApi()->Release();
+    args.GetReturnValue().Set(Undefined(isolate));
+}
+
+void WrapMd::Dispose(const v8::FunctionCallbackInfo<v8::Value>& args)                     
+{
+    WrapMd* obj = node::ObjectWrap::Unwrap<WrapMd>(args.Holder());
+    Isolate* isolate = args.GetIsolate();
+    obj->dispose();
     args.GetReturnValue().Set(Undefined(isolate));
 }
 

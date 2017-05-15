@@ -35,10 +35,12 @@ CThostFtdcMdSpiI::~CThostFtdcMdSpiI()
         uv_close((uv_handle_t*) & ptask[i]->handle, on_uv_close_cb);
     }
     delete ptask;
-    
-    m_pApi->RegisterSpi(NULL);
-    m_pApi->Release();
-    m_pApi = NULL;
+
+    if (m_pApi != NULL) {
+        m_pApi->RegisterSpi(NULL);
+        m_pApi->Release();
+        m_pApi = NULL;
+    }
 }
 
 void CThostFtdcMdSpiI::on_uv_close_cb(uv_handle_t* handle) 

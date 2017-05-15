@@ -151,6 +151,11 @@ class CThostFtdcTraderSpiI : public CThostFtdcTraderSpi
 		CThostFtdcTraderApi* GetTdApi(){ return m_pApi;}
     void setTdApi(CThostFtdcTraderApi* _m_pApi){ m_pApi = _m_pApi;}
     void RegisterSpi(){ m_pApi->RegisterSpi(this);}
+    void dispose() {
+      m_pApi->RegisterSpi(NULL);
+      m_pApi->Release();
+      m_pApi = NULL;
+    }
     
         void uv_async_send_s(uv_async_t* handle)
         {

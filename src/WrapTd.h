@@ -48,6 +48,7 @@ namespace td
             static void GetApiVersion(const v8::FunctionCallbackInfo<v8::Value>& args);
             static void Init(const v8::FunctionCallbackInfo<v8::Value>& args);
             static void Release(const v8::FunctionCallbackInfo<v8::Value>& args);
+            static void Dispose(const v8::FunctionCallbackInfo<v8::Value>& args);
             static void CreateFtdcTraderApi(const v8::FunctionCallbackInfo<v8::Value>& args);
             static void GetTradingDay(const v8::FunctionCallbackInfo<v8::Value>& args);
             static void RegisterFront(const v8::FunctionCallbackInfo<v8::Value>& args);

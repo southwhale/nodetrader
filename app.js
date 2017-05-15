@@ -5,6 +5,7 @@ const mailer = require('./lib/mailer');
 const ntevent = require('./lib/ntevent');
 
 const Ctp = require('./lib/ctp');
+const ctpmgr = require('./lib/ctpmanager');
 
 const object = require('7hoo/object');
 const lang = require('7hoo/lang');
@@ -20,6 +21,7 @@ process.on('uncaughtException', function(err) {
 object.forEach(setting, function(st, brokeID) {
 	object.forEach(st.accountMap, function(account, accountID) {
 		var ctp = new Ctp(st);
+		ctpmgr.put(accountID, ctp);
 
 		new Trade(ctp, accountID);
 		new Market(ctp, accountID);

@@ -112,6 +112,11 @@ class CThostFtdcMdSpiI : public CThostFtdcMdSpi
         CThostFtdcMdApi* GetMdApi(){return m_pApi;}
         void setMdApi(CThostFtdcMdApi*  _m_pApi){ m_pApi = _m_pApi;}
         void RegisterSpi(){ m_pApi->RegisterSpi(this);}
+        void dispose() {
+          m_pApi->RegisterSpi(NULL);
+          m_pApi->Release();
+          m_pApi = NULL;
+        }
        
     private:
         static void on_uv_close_cb(uv_handle_t* handle); 
