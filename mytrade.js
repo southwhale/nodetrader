@@ -17,7 +17,7 @@ function Trade(ctp, userID) {
 	  	InvestorID: data.UserID,
 	  	ConfirmDate: data.TradingDay,
 	  	ConfirmTime: data.SHFETime
-	  });
+	  }, this.ctp.nRequestID());
 	  // ctp.td.ReqQryTradingAccount(account, ctp.nRequestID());
 	  //logger.info('ReqQryTradingAccount=', ctp.td.ReqQryTradingAccount(q, (new Date()).valueOf()/1000));
 	  //sleep(2000);
@@ -81,7 +81,7 @@ function Trade(ctp, userID) {
 
 	this.OnRspQryTradingAccount = function(data, rsp, nRequestID, bIsLast) {
 		logger.info('OnRspQryTradingAccount: %j, %j, %s, %s',  data, rsp, nRequestID, bIsLast);
-		tevent.emit('/trade/ReqQryTradingAccount', data);
+		tevent.emit('/trade/ReqQryTradingAccount', data, this.ctp);
 	};
 
 	this.OnRspFromFutureToBankByFuture = function(data, rsp, nRequestID, bIsLast) {
