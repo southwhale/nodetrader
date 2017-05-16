@@ -75,7 +75,7 @@ function Trade(ctp, userID) {
 	this.OnRtnTrade = function(data) {
 		// 在这里查资金状况, 根据判断发出通知和出金改密操作
 		// 平仓: OffsetFlag==3, 开仓: OffsetFlag==0
-		data.OffsetFlag && this.ctp.td.ReqQryTradingAccount(this.ctp.getAccountByUserID(data.InvestorID), this.ctp.nRequestID());
+		data.OffsetFlag != 0 && this.ctp.td.ReqQryTradingAccount(this.ctp.getAccountByUserID(data.InvestorID), this.ctp.nRequestID());
 	  logger.info('OnRtnTrade:',  data);
 	};
 
