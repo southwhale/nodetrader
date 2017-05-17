@@ -6,7 +6,7 @@ const Market = require('../mymarket');
 const Tick = require('../../db/model/tick');
 
 process.on('uncaughtException', function(err) {
-  logger.info('uncaughtException: %j', err);
+  logger.info('tickcollector uncaughtException: %j', err);
 });
 
 new Market(new Ctp(setting[4040], 369888));
