@@ -9,7 +9,7 @@ process.on('uncaughtException', function(err) {
   logger.info('uncaughtException: %j', err);
 });
 
-new Market(new Ctp(setting[4040]), 369888);
+new Market(new Ctp(setting[4040], 369888));
 
 
 ntevent.on('/market/OnRtnDepthMarketData', function(tick) {
