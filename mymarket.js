@@ -1,7 +1,7 @@
 const logger = require('./lib/logger').ctpapp;
 const tevent = require('./lib/traderevent');
 
-const Class = require('7hoo/class');
+const Class = require('iguzhi/class');
 
 function Market(ctp, userID) {
 	this.$superConstructor(arguments);

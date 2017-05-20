@@ -1,5 +1,5 @@
 const product = require('../config/product.json');
-const object = require('7hoo/object');
+const object = require('iguzhi/object');
 
 var r = {};
 

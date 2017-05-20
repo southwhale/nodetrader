@@ -6,9 +6,9 @@ const ntevent = require('./lib/ntevent');
 
 const Ctp = require('./lib/ctp');
 
-const object = require('7hoo/object');
-const lang = require('7hoo/lang');
-const string = require('7hoo/string');
+const object = require('iguzhi/object');
+const lang = require('iguzhi/lang');
+const string = require('iguzhi/string');
 
 var Trade = require('./mytrade');
 var Market = require('./mymarket');
