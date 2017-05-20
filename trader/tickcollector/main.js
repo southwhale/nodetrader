@@ -1,4 +1,5 @@
 const ntevent = require('../../lib/ntevent');
+const logger = require('../../lib/logger').ctpapp;
 const product = require('../product');
 const setting = require('../../config/setting.json');
 const Ctp = require('../../lib/ctp');
@@ -17,9 +18,9 @@ ntevent.on('/market/OnRtnDepthMarketData', function(tick) {
 function saveToDB(tick) {
 	// 这里用sequelize实现保存操作
   Tick.create(tick).then(function (p) {
-    console.log('created.' + JSON.stringify(p));
+    logger.info('save tick to db: %j', p);
   }).catch(function (err) {
-    console.log('failed: ' + err);
+    logger.error('failed save tick to db: %s', err);
   });
 }
 
