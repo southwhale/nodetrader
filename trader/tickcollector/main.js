@@ -1,5 +1,5 @@
 const ntevent = require('../../lib/ntevent');
-const logger = require('../../lib/logger').ctpapp;
+const logger = require('../../lib/logger').db;
 const product = require('../product');
 const setting = require('../../config/setting.json');
 const Ctp = require('../../lib/ctp');
