@@ -4,10 +4,6 @@ const setting = require('../../config/setting.json');
 const Ctp = require('../../lib/ctp');
 const Tick = require('../../db/model/tick');
 
-process.on('uncaughtException', function(err) {
-  logger.info('tickcollector uncaughtException: %j', err);
-});
-
 
 ntevent.on('/market/OnRtnDepthMarketData', function(tick) {
 	buildTickProduct(tick);
