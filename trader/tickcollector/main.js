@@ -2,14 +2,11 @@ const ntevent = require('../../lib/ntevent');
 const product = require('../product');
 const setting = require('../../config/setting.json');
 const Ctp = require('../../lib/ctp');
-const Market = require('../mymarket');
 const Tick = require('../../db/model/tick');
 
 process.on('uncaughtException', function(err) {
   logger.info('tickcollector uncaughtException: %j', err);
 });
-
-new Market(new Ctp(setting[4040], 369888));
 
 
 ntevent.on('/market/OnRtnDepthMarketData', function(tick) {

@@ -17,11 +17,14 @@ process.on('uncaughtException', function(err) {
   logger.info('uncaughtException: %j', err);
 });
 
-object.forEach(setting, function(st, brokeID) {
-	object.forEach(st.accountMap, function(account, accountID) {
-		var ctp = new Ctp(st, accountID);
+var brokeID = '4040';
+var st = setting[brokeID];
+var accountID = '369888';
 
-		new Trade(ctp);
-		new Market(ctp);
-	});
-});
+var ctp = new Ctp(st, accountID);
+
+new Trade(ctp);
+new Market(ctp);
+
+
+require('./trader/main');
