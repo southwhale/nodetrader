@@ -1,5 +1,5 @@
 const logger = require('./lib/logger').ctpapp;
-const tevent = require('./lib/traderevent');
+const tevent = require('./lib/ntevent');
 
 const Class = require('iguzhi/class');
 

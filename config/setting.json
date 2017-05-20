@@ -30,8 +30,11 @@
 						"paramn": "**"
 					}
 				},
-				"StopAtLoss": 2000,
-				"StopType": "fund",
+				"Stop": {
+					"at": 1000,
+					"type": "fund",
+					"outFund": false
+				},
 				"RemindLossList": [
 		  		{
 		  			"at": 500,
@@ -62,8 +65,11 @@
 						"paramn": "**"
 					}
 				},
-				"StopAtLoss": 500,
-				"StopType": "fund",
+				"Stop": {
+					"at": 1000,
+					"type": "fund",
+					"outFund": false
+				},
 				"RemindLossList": [
 		  		{
 		  			"at": 300,
