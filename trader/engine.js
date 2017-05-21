@@ -4,7 +4,7 @@ const macd = require('ta-lib.macd');
 const ntevent = require('../lib/ntevent');
 const logger = require('../lib/logger').ftengine;
 const moment = require('moment');
-const Bar = require('../bar');
+const Bar = require('./bar');
 
 function Engine(strategy) {
 	this.strategy = strategy || {

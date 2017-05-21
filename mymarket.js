@@ -11,7 +11,7 @@ function Market(ctp, userID) {
 
 	this.OnRspUserLogin = function(data, rsp, nRequestID, bIsLast) {
 	  logger.info('OnRspUserLogin : %j, %j, %s, %s', data, rsp, nRequestID, bIsLast);
-	 	console.log("SubscribeMarketData:", this.ctp.md.SubscribeMarketData(['zn1707', 'ru1709', 'rb1710']));
+	 	console.log("SubscribeMarketData:", this.ctp.md.SubscribeMarketData(this.ctp.getAccountByUserID(this.ctp.accountID).Strategy.instrumentIDList));
 	};
 
 	this.OnRspSubMarketData = function(data, rsp, nRequestID, bIsLast) {
