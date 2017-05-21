@@ -4,6 +4,7 @@
 		"ctpapp": "INFO",
 		"email": "INFO",
 		"schedule": "INFO",
-		"db": "INFO"
+		"db": "INFO",
+		"ftengine": "INFO"
 	}
 }
