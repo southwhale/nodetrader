@@ -6,15 +6,18 @@
   "private": true,
   "gypfile": true,
   "dependencies": {
-    "iguzhi": "~0.0.5",
     "big.js": "^3.1.3",
     "bindings": "~1.2.1",
+    "iguzhi": "~0.0.5",
     "log4js": "^1.1.1",
-    "node-schedule": "^1.2.1",
+    "moment": "^2.18.1",
     "mysql": "^2.13.0",
+    "node-schedule": "^1.2.1",
     "nodemailer": "^4.0.1",
     "sequelize": "^3.30.4",
     "socket.io": "^1.7.4",
-    "talib": "^1.0.2"
+    "ta-lib.macd": "0.0.4",
+    "ta-lib.sma": "0.0.6",
+    "ta-lib.sum": "0.0.2"
   }
 }
