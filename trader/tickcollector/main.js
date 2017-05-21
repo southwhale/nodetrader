@@ -9,7 +9,10 @@ const Tick = require('../../db/model/tick');
 ntevent.on('/market/OnRtnDepthMarketData', function(tick) {
 	buildTickProduct(tick);
 	buildTickLogtime(tick);
-	saveToDB(tick);
+  // 发送给交易引擎
+  ntevent.emit('/market/tick', tick);
+	// 存储tick
+  saveToDB(tick);
 });
 
 
