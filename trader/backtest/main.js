@@ -6,7 +6,6 @@ var e = new Engine({
 	param: {}
 });
 e.setStartDate('20170522');
-e.addInstrumentID('zn1707', 'T1709');
 e.prepare();
 
 e.start();

@@ -7,13 +7,12 @@ function Engine() {
 	this.$superConstructor(arguments);
 	this.startDate = null;// 格式: 'YYYYMMDD'
 	this.endDate = null;// 格式: 'YYYYMMDD'
-	this.instrumentIDList = [];
 }
 
 (function() {
 
 	this.prepare = function() {
-		var instrumentIDList = this.instrumentIDList;
+		var instrumentIDList = this.strategy.instrumentIDList;
 
 		var option = {};
 		if (this.startDate) {
@@ -45,10 +44,6 @@ function Engine() {
 
 	this.setEndDate = function(date) {
 		this.endDate = date;
-	};
-
-	this.addInstrumentID = function() {
-		Array.prototype.push.apply(this.instrumentIDList, arguments);
 	};
 
 	function loadTicks(instrumentIDList, lastid) {
