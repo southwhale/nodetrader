@@ -42,7 +42,7 @@ function Engine(strategy) {
 (function() {
 
 	this.start = function() {
-		ntevent.on('/market/tick', this.onTick);
+		ntevent.on('/market/tick', this.onTick.bind(this));
 	};
 
 	this.onTick = function(tick) {
@@ -72,7 +72,7 @@ function Engine(strategy) {
 			bar.low = tick.LastPrice;
 			bar.close = tick.LastPrice;
 
-			bar.openVolume = lastbar && lastbar.closeVolume || 0;
+			bar.openVolume = lastbar && lastbar.closeVolume || tick.Volume;
 			bar.closeVolume = tick.Volume;
 			bar.volume = bar.closeVolume - bar.openVolume;
 			bar.openInterest = tick.OpenInterest;
@@ -81,7 +81,7 @@ function Engine(strategy) {
 		else {
       bar.high = Math.max(bar.high, tick.LastPrice);
       bar.low = Math.max(bar.low, tick.LastPrice);
-      bar.close = bar.LastPrice;
+      bar.close = tick.LastPrice;
       bar.closeVolume = tick.Volume;
       bar.volume = bar.closeVolume - bar.openVolume;
       bar.openInterest = tick.OpenInterest;
@@ -150,14 +150,14 @@ function Engine(strategy) {
         var seconds = date.getSeconds();
         var secondInteger = parseInt(seconds / period.value);
         date.setSeconds(secondInteger * period.value);
-        ret = moment(date).format(this.pattern.secondbarPeriod);
+        ret = moment(date).format(this.pattern.secondBarPeriod);
         break;
       case 'minute':
       default:
         var minutes = date.getMinutes();
         var minuteInteger = parseInt(minutes / period.value);
         date.setMinutes(minuteInteger * period.value);
-        ret = moment(date).format(this.pattern.minutebarPeriod);
+        ret = moment(date).format(this.pattern.minuteBarPeriod);
         break;
     }
 

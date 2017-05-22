@@ -23,7 +23,7 @@ function saveToDB(tick) {
   Tick.create(tick).then(function (p) {
     logger.info('save tick to db: %j', p);
   }).catch(function (err) {
-    logger.error('failed save tick to db: %s', err);
+    logger.error('failed save tick to db: %j', err);
   });
 }
 

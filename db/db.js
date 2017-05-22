@@ -9,7 +9,8 @@ var sequelize = new Sequelize(
       'dialect': cfg.dialect,  // 数据库使用mysql
       'host': cfg.host, 			 // 数据库服务器ip
       'port': cfg.port,         // 数据库服务器端口
-      'pool': cfg.pool
+      'pool': cfg.pool,
+      'logging': cfg.logging
       // 'define': {
       //     // 字段以下划线（_）来分割（默认是驼峰命名风格）
       //     'underscored': true

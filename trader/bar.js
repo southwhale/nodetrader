@@ -37,7 +37,4 @@ function Bar() {
 
 }).call(Bar.prototype);
 
-// 基础指标, 其他指标基于基础指标计算而来
-Bar.baseIndicatorNameList = ['open', 'high', 'low', 'close', 'volume', 'openInterest'];
-
 module.exports = Bar;
