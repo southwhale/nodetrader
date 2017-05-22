@@ -88,7 +88,7 @@ function Engine(strategy) {
 		}
 		else {
       bar.high = Math.max(bar.high, tick.LastPrice);
-      bar.low = Math.max(bar.low, tick.LastPrice);
+      bar.low = Math.min(bar.low, tick.LastPrice);
       bar.close = tick.LastPrice;
       bar.closeVolume = tick.Volume;
       bar.volume = bar.closeVolume - bar.openVolume;
