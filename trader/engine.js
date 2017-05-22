@@ -13,12 +13,23 @@ function Engine(strategy) {
 		param: {}
 	};
 
-	var barMap = this.barMap = {};
-	var barListMap = this.barListMap = {};
+	var instrumentMap = this.instrumentMap = {};
 
 	this.strategy.instrumentIDList.forEach(function(instrumentID) {
-		barMap[instrumentID] = new Bar();
-		barListMap[instrumentID] = [];
+		instrumentMap[instrumentID] = {
+			lastbar: null,// 上一根bar
+			bar: new Bar(),// 当前bar
+			barList: [],
+			closeList: [],
+			ma5List: [],
+			ma10List: [],
+			ma20List: [],
+			ma40List: [],
+			ma60List: [],
+			macdList: [],
+			signalLineList: [],
+			histogramList: []
+		};
 	});
 
 	this.pattern = {
@@ -34,9 +45,6 @@ function Engine(strategy) {
 		type: 'minute',
 		value: 1
 	};
-
-	// close指标列表, 即收盘价的列表
-	this.closeList = [];
 }
 
 (function() {
@@ -53,17 +61,17 @@ function Engine(strategy) {
 		// tick.time = tick.moment.format(this.pattern.time);
 
 		var periodDatetime = this.getPeriodDatetimeByPeriod(tick.LogTime, this.defaultPeriod);
-		var bar = this.barMap[tick.InstrumentID];
-		var lastbar;
+		var instmap = this.instrumentMap[tick.InstrumentID];
+		var bar = instmap.bar;
 
 		if (periodDatetime != bar.periodDatetime) {
 			if (bar.periodDatetime) {
-				lastbar = bar;
-				this.onLastMinuteBar(lastbar, tick);
+				instmap.lastbar = bar;
+				this.onLastMinuteBar(instmap.lastbar, tick);
 			}
 
 			bar = new Bar();
-			this.barMap[tick.InstrumentID] = bar;
+			this.instrumentMap[tick.InstrumentID].bar = bar;
 
 			bar.instrumentID = tick.InstrumentID;
 			bar.periodDatetime = periodDatetime;
@@ -72,7 +80,7 @@ function Engine(strategy) {
 			bar.low = tick.LastPrice;
 			bar.close = tick.LastPrice;
 
-			bar.openVolume = lastbar && lastbar.closeVolume || tick.Volume;
+			bar.openVolume = instmap.lastbar && instmap.lastbar.closeVolume || tick.Volume;
 			bar.closeVolume = tick.Volume;
 			bar.volume = bar.closeVolume - bar.openVolume;
 			bar.openInterest = tick.OpenInterest;
@@ -87,7 +95,7 @@ function Engine(strategy) {
       bar.openInterest = tick.OpenInterest;
 		}
 
-		this.onCurrentMinuteBar(bar, lastbar, tick);
+		this.onCurrentMinuteBar(bar, instmap.lastbar, tick);
 	};
 
 	/**
@@ -95,31 +103,32 @@ function Engine(strategy) {
 	 * 只有一分钟走完之后才会计算这一分钟的ma和macd指标
 	 */
 	this.onLastMinuteBar = function(lastbar, tick) {
-		var barList = this.barListMap[lastbar.instrumentID];
-		barList.push(lastbar);
+		var instmap = this.instrumentMap[tick.InstrumentID];
+
+		instmap.barList.push(lastbar);
 		
-		this.closeList.push(lastbar.close);
+		instmap.closeList.push(lastbar.close);
 
-		this.ma5List = sma(this.closeList, 5);
-		this.ma10List = sma(this.closeList, 10);
-		this.ma20List = sma(this.closeList, 20);
-		this.ma40List = sma(this.closeList, 40);
-		this.ma60List = sma(this.closeList, 60);
+		instmap.ma5List = sma(instmap.closeList, 5);
+		instmap.ma10List = sma(instmap.closeList, 10);
+		instmap.ma20List = sma(instmap.closeList, 20);
+		instmap.ma40List = sma(instmap.closeList, 40);
+		instmap.ma60List = sma(instmap.closeList, 60);
 
-		lastbar.ma5 = this.ma5List[this.ma5List.length - 1];
-		lastbar.ma10 = this.ma10List[this.ma10List.length - 1];
-		lastbar.ma20 = this.ma20List[this.ma20List.length - 1];
-		lastbar.ma40 = this.ma40List[this.ma40List.length - 1];
-		lastbar.ma60 = this.ma60List[this.ma60List.length - 1];
+		lastbar.ma5 = instmap.ma5List[instmap.ma5List.length - 1];
+		lastbar.ma10 = instmap.ma10List[instmap.ma10List.length - 1];
+		lastbar.ma20 = instmap.ma20List[instmap.ma20List.length - 1];
+		lastbar.ma40 = instmap.ma40List[instmap.ma40List.length - 1];
+		lastbar.ma60 = instmap.ma60List[instmap.ma60List.length - 1];
 
-		var msh = macd(this.closeList);
-		this.macdList = msh.macd;
-		this.signalLineList = msh.signalLine;
-		this.histogramList = msh.histogram;
+		var msh = macd(instmap.closeList);
+		instmap.macdList = msh.macd;
+		instmap.signalLineList = msh.signalLine;
+		instmap.histogramList = msh.histogram;
 
-		lastbar.macd = this.macdList[this.macdList.length - 1];
-		lastbar.signalLine = this.signalLineList[this.signalLineList.length - 1];
-		lastbar.histogram = this.histogramList[this.histogramList.length - 1];
+		lastbar.macd = instmap.macdList[instmap.macdList.length - 1];
+		lastbar.signalLine = instmap.signalLineList[instmap.signalLineList.length - 1];
+		lastbar.histogram = instmap.histogramList[instmap.histogramList.length - 1];
 
 		logger.info('%j', lastbar);
 	};
