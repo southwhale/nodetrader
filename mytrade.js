@@ -69,14 +69,14 @@ function Trade(ctp, userID) {
 	};
 	// 报单通知
 	this.OnRtnOrder = function(data) {
-	  // logger.info('OnRtnOrder: %j',  data)
+	  tevent.emit('/trade/OnRtnOrder', data);
 	};
 	// 成交通知
 	this.OnRtnTrade = function(data) {
 		// 在这里查资金状况, 根据判断发出通知和出金改密操作
 		// 平仓: OffsetFlag==3, 开仓: OffsetFlag==0
 		// data.OffsetFlag != 0 && this.ctp.td.ReqQryTradingAccount(this.ctp.getAccountByUserID(data.InvestorID), this.ctp.nRequestID());
-	  logger.info('OnRtnTrade:',  data);
+	  tevent.emit('/trade/OnRtnTrade', data);
 	};
 
 	this.OnRspQryTradingAccount = function(data, rsp, nRequestID, bIsLast) {

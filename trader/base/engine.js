@@ -1,34 +1,33 @@
 // 交易引擎基类
 const sma = require('ta-lib.sma');
 const macd = require('ta-lib.macd');
-const ntevent = require('../lib/ntevent');
-const logger = require('../lib/logger').ftengine;
+const lang = require('iguzhi/lang');
+const ctpmgr = require('../../lib/ctpmanager');
+const ntevent = require('../../lib/ntevent');
+const logger = require('../../lib/logger').tengine;
 const moment = require('moment');
 const Bar = require('./bar');
 
-function Engine(strategy) {
-	this.strategy = strategy || {
+function Engine(account) {
+	this.engineName = 'BaseEngine';
+
+	this.ctp = ctpmgr.get(account.UserID);
+
+	this.strategy = account.Strategy || {
 		name: 'TestStrategy',
-		instrumentIDList: [], // ['ru1709', 'rb1710', 'zn1707']
+		tradeInstrumentIDList: [], // 要交易的合约 ['ru1709', 'zn1707']
+		subscribeInstrumentIDList: [], // 订阅行情的合约, 之所有和交易的合约不完全一样, 是因为可能需要额外的合约作为参考 ['ru1709', 'rb1710', 'zn1707']
 		param: {}
 	};
 
 	var instrumentMap = this.instrumentMap = {};
 
-	this.strategy.instrumentIDList.forEach(function(instrumentID) {
+	this.strategy.subscribeInstrumentIDList.forEach(function(instrumentID) {
 		instrumentMap[instrumentID] = {
 			lastbar: null,// 上一根bar
 			bar: new Bar(),// 当前bar
 			barList: [],
-			closeList: [],
-			ma5List: [],
-			ma10List: [],
-			ma20List: [],
-			ma40List: [],
-			ma60List: [],
-			macdList: [],
-			signalLineList: [],
-			histogramList: []
+			closeList: []
 		};
 	});
 
@@ -51,6 +50,10 @@ function Engine(strategy) {
 
 	this.start = function() {
 		ntevent.on('/market/tick', this.onTick.bind(this));
+		ntevent.on('/trade/OnRtnOrder', this.onOrder.bind(this));
+		ntevent.on('/trade/OnRtnTrade', this.onTrade.bind(this));
+
+		logger.info('%s start!', this.engineName);
 	};
 
 	this.onTick = function(tick) {
@@ -74,6 +77,7 @@ function Engine(strategy) {
 			this.instrumentMap[tick.InstrumentID].bar = bar;
 
 			bar.instrumentID = tick.InstrumentID;
+			bar.product = tick.Product;
 			bar.periodDatetime = periodDatetime;
 			bar.open = tick.LastPrice;
 			bar.high = tick.LastPrice;
@@ -109,26 +113,32 @@ function Engine(strategy) {
 		
 		instmap.closeList.push(lastbar.close);
 
-		instmap.ma5List = sma(instmap.closeList, 5);
-		instmap.ma10List = sma(instmap.closeList, 10);
-		instmap.ma20List = sma(instmap.closeList, 20);
-		instmap.ma40List = sma(instmap.closeList, 40);
-		instmap.ma60List = sma(instmap.closeList, 60);
+		var ma5List = sma(instmap.closeList, 5);
+		var ma10List = sma(instmap.closeList, 10);
+		var ma20List = sma(instmap.closeList, 20);
+		var ma40List = sma(instmap.closeList, 40);
+		var ma60List = sma(instmap.closeList, 60);
 
-		lastbar.ma5 = instmap.ma5List[instmap.ma5List.length - 1];
-		lastbar.ma10 = instmap.ma10List[instmap.ma10List.length - 1];
-		lastbar.ma20 = instmap.ma20List[instmap.ma20List.length - 1];
-		lastbar.ma40 = instmap.ma40List[instmap.ma40List.length - 1];
-		lastbar.ma60 = instmap.ma60List[instmap.ma60List.length - 1];
+		lastbar.ma5 = ma5List[ma5List.length - 1] || null;
+		lastbar.ma10 = ma10List[ma10List.length - 1] || null;
+		lastbar.ma20 = ma20List[ma20List.length - 1] || null;
+		lastbar.ma40 = ma40List[ma40List.length - 1] || null;
+		lastbar.ma60 = ma60List[ma60List.length - 1] || null;
 
 		var msh = macd(instmap.closeList);
-		instmap.macdList = msh.macd;
-		instmap.signalLineList = msh.signalLine;
-		instmap.histogramList = msh.histogram;
+		var macdList = msh.macd;
+		var signalLineList = msh.signalLine;
+		var histogramList = msh.histogram;
 
-		lastbar.macd = instmap.macdList[instmap.macdList.length - 1];
-		lastbar.signalLine = instmap.signalLineList[instmap.signalLineList.length - 1];
-		lastbar.histogram = instmap.histogramList[instmap.histogramList.length - 1];
+		lastbar.macd = macdList[macdList.length - 1] || null;
+		lastbar.signalLine = signalLineList[signalLineList.length - 1] || null;
+		lastbar.histogram = histogramList[histogramList.length - 1] || null;
+
+		// 保存指标到数据库, 供交易前预加载进来使用, 省去再次计算的时间
+		// 只有实盘时才会保存, 回测时不用保存
+		if (lang.isFunction(this.saveBar)) {
+			this.saveBar(lastbar);
+		}
 
 		logger.info('%j', lastbar);
 	};
@@ -171,6 +181,37 @@ function Engine(strategy) {
     }
 
     return ret;
+  };
+
+  /**
+   * @order {Order} 订单
+   * 发送订单
+   */
+  this.sendOrder = function(order) {
+
+  };
+
+  /**
+   * @order {Order} 订单
+   * 撤单
+   */
+  this.cancelOrder = function(order) {
+
+  };
+
+  /**
+   * 报单通知, 订单状态发生变化时的响应
+   * 要区分是下单成功、还是撤单、还是委托成功
+   */
+  this.onOrder = function(data) {
+
+  };
+
+  /**
+   * 成交通知, 订单成交时的响应
+   */
+  this.onTrade = function(data) {
+
   };
 
 }).call(Engine.prototype);

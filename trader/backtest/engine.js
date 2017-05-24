@@ -5,6 +5,8 @@ const moment = require('moment');
 
 function Engine() {
 	this.$superConstructor(arguments);
+	this.engineName = 'BacktestEngine';
+
 	this.startDate = null;// 格式: 'YYYYMMDD'
 	this.endDate = null;// 格式: 'YYYYMMDD'
 }
@@ -77,7 +79,7 @@ function Engine() {
 
 }).call(Engine.prototype);
 
-Class.inherit(Engine, require('../engine'));
+Class.inherit(Engine, require('../base/engine'));
 
 module.exports = Engine;
 

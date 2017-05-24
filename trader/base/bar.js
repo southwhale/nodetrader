@@ -6,6 +6,8 @@
 function Bar() {
 	this.periodDatetime = null; // 统计指标周期的时间
 	this.instrumentID = null;
+	this.product = null;
+	
 	// K线部分
 	this.open = null;
 	this.high = null;

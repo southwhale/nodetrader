@@ -20,10 +20,12 @@
 				"Password": "123456",
 				"FundPassword": "123456",
 				"BankID": "5",
-				"Trader": "交易员名字一",
-				"Email": "****@qq.com",
+				"Trader": "交易员名字",
+				"Email": "yourmail@qq.com",
 				"Strategy": {
-					"name": "****Strategy",
+					"name": "TestStrategy",
+					"tradeInstrumentIDList": ["zn1707", "ru1709"],
+					"subscribeInstrumentIDList": ["zn1707", "ru1709", "rb1710", "T1709"],
 					"param": {
 						"param1": "**",
 						"param2": "**",
@@ -31,7 +33,7 @@
 					}
 				},
 				"Stop": {
-					"at": 1000,
+					"at": 2000,
 					"type": "fund",
 					"outFund": false
 				},
@@ -46,33 +48,6 @@
 		  		},
 		  		{
 		  			"at": 1500,
-		  			"type": "fund"
-		  		}
-		  	]
-			},
-			"0060000888": {
-				"UserID": "0060000888",
-				"Password": "123456",
-				"FundPassword": "123456",
-				"BankID": "5",
-				"Trader": "交易员名字二",
-				"Email": "****@qq.com",
-				"Strategy": {
-					"name": "****Strategy",
-					"param": {
-						"param1": "**",
-						"param2": "**",
-						"paramn": "**"
-					}
-				},
-				"Stop": {
-					"at": 1000,
-					"type": "fund",
-					"outFund": false
-				},
-				"RemindLossList": [
-		  		{
-		  			"at": 300,
 		  			"type": "fund"
 		  		}
 		  	]

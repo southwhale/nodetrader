@@ -29,6 +29,6 @@ new Market(ctp);
 
 require('./trader/main');
 
-var FTEngine = require('./trader/engine');
+var FTEngine = require('./trader/firm/engine');
 
-new FTEngine(ctp.getAccountByUserID(accountID).Strategy).start();
+new FTEngine(ctp.getAccountByUserID(accountID)).start();
