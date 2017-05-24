@@ -8,10 +8,11 @@ const logger = require('../../lib/logger').tengine;
 const moment = require('moment');
 const Bar = require('./bar');
 
+// 为了适配回测引擎, 这里需要传入account而不是accountID
 function Engine(account) {
 	this.engineName = 'BaseEngine';
 
-	this.ctp = ctpmgr.get(account.UserID);
+	this.ctp = ctpmgr.get(account.accountID);
 
 	this.strategy = account.Strategy || {
 		name: 'TestStrategy',
@@ -52,6 +53,8 @@ function Engine(account) {
 		ntevent.on('/market/tick', this.onTick.bind(this));
 		ntevent.on('/trade/OnRtnOrder', this.onOrder.bind(this));
 		ntevent.on('/trade/OnRtnTrade', this.onTrade.bind(this));
+		ntevent.on('/trade/ReqQryTradingAccount', this.onAccount.bind(this));
+		ntevent.on('/trade/OnRspQryInvestorPosition', this.onPosition.bind(this));
 
 		logger.info('%s start!', this.engineName);
 	};
@@ -200,6 +203,20 @@ function Engine(account) {
   };
 
   /**
+   * 查询账户资金
+   */
+  this.queryAccount = function() {
+
+  };
+
+  /**
+   * 查询持仓
+   */
+  this.queryPosition = function() {
+
+  };
+
+  /**
    * 报单通知, 订单状态发生变化时的响应
    * 要区分是下单成功、还是撤单、还是委托成功
    */
@@ -211,6 +228,20 @@ function Engine(account) {
    * 成交通知, 订单成交时的响应
    */
   this.onTrade = function(data) {
+
+  };
+
+  /**
+   * 请求查询资金账户响应
+   */
+  this.onAccount = function(data) {
+
+  };
+
+  /**
+   * 请求查询投资者持仓响应
+   */
+  this.onPosition = function(data) {
 
   };
 

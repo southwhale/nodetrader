@@ -53,5 +53,5 @@ function Order() {
 	this.LimitPrice = null; // 价格
 	this.VolumeTotalOriginal = null; // 数量
 	this.TimeCondition = null; // 有效期类型
-	this.VolumeCondition = null; // 成交量类型 
+	this.VolumeCondition = null; // 成交量类型
 }

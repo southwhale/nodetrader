@@ -1,5 +1,5 @@
 const logger = require('./lib/logger').ctpapp;
-const tevent = require('./lib/ntevent');
+const ntevent = require('./lib/ntevent');
 
 const Class = require('iguzhi/class');
 
@@ -69,19 +69,24 @@ function Trade(ctp, userID) {
 	};
 	// 报单通知
 	this.OnRtnOrder = function(data) {
-	  tevent.emit('/trade/OnRtnOrder', data);
+	  ntevent.emit('/trade/OnRtnOrder', data);
 	};
 	// 成交通知
 	this.OnRtnTrade = function(data) {
 		// 在这里查资金状况, 根据判断发出通知和出金改密操作
 		// 平仓: OffsetFlag==3, 开仓: OffsetFlag==0
 		// data.OffsetFlag != 0 && this.ctp.td.ReqQryTradingAccount(this.ctp.getAccountByUserID(data.InvestorID), this.ctp.nRequestID());
-	  tevent.emit('/trade/OnRtnTrade', data);
+	  ntevent.emit('/trade/OnRtnTrade', data);
 	};
 
 	this.OnRspQryTradingAccount = function(data, rsp, nRequestID, bIsLast) {
-		logger.info('OnRspQryTradingAccount: %j, %j, %s, %s',  data, rsp, nRequestID, bIsLast);
-		tevent.emit('/trade/ReqQryTradingAccount', data, this.ctp);
+		// logger.info('OnRspQryTradingAccount: %j, %j, %s, %s',  data, rsp, nRequestID, bIsLast);
+		ntevent.emit('/trade/ReqQryTradingAccount', data);
+	};
+
+	// 请求查询投资者持仓响应
+	this.OnRspQryInvestorPosition = function(data, rsp, nRequestID, bIsLast) {
+		ntevent.emit('/trade/OnRspQryInvestorPosition', data);
 	};
 
 	this.OnRspFromFutureToBankByFuture = function(data, rsp, nRequestID, bIsLast) {

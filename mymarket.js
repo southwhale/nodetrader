@@ -1,5 +1,5 @@
 const logger = require('./lib/logger').ctpapp;
-const tevent = require('./lib/ntevent');
+const ntevent = require('./lib/ntevent');
 
 const Class = require('iguzhi/class');
 
@@ -23,7 +23,7 @@ function Market(ctp, userID) {
 	};
 
 	this.OnRtnDepthMarketData = function(data) {
-    tevent.emit('/market/OnRtnDepthMarketData', data);
+    ntevent.emit('/market/OnRtnDepthMarketData', data);
 	};
 }).call(Market.prototype);
 
