@@ -89,12 +89,12 @@ function Trade(ctp, userID) {
 		ntevent.emit('/trade/OnRspQryInvestorPosition', data);
 	};
 
-	this.OnRspFromFutureToBankByFuture = function(data, rsp, nRequestID, bIsLast) {
-		logger.info('OnRspFromFutureToBankByFuture: %j, %j, %s, %s',  data, rsp, nRequestID, bIsLast);
+	this.OnRtnFromFutureToBankByFuture = function(data, rsp, nRequestID, bIsLast) {
+		logger.info('OnRtnFromFutureToBankByFuture: %j, %j, %s, %s',  data, rsp, nRequestID, bIsLast);
 	};
 
-	this.OnRspFromBankToFutureByFuture = function(data, rsp, nRequestID, bIsLast) {
-		logger.info('OnRspFromBankToFutureByFuture: %j, %j, %s, %s',  data, rsp, nRequestID, bIsLast);
+	this.OnRtnFromBankToFutureByFuture = function(data, rsp, nRequestID, bIsLast) {
+		logger.info('OnRtnFromBankToFutureByFuture: %j, %j, %s, %s',  data, rsp, nRequestID, bIsLast);
 		// ctp.td.ReqTradingAccountPasswordUpdate({
 		// 	BrokerID: '4040',
 		// 	AccountID: '',
