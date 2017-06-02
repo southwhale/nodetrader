@@ -9,7 +9,7 @@ const dict = require('../base/dict');
 
 ntevent.on('/market/OnRtnDepthMarketData', function(tick) {
   // 下面三个函数调用顺序不能乱, 顺序依赖
-	buildTickProduct(tick);
+	buildTickProductID(tick);
   buildTickExchangeID(tick);
 	buildTickLogtime(tick);
   // 发送给交易引擎
@@ -46,18 +46,18 @@ function buildTickLogtime(tick) {
   tick.LogTime = tick.LogTime.getTime();
 }
 
-function buildTickProduct(tick) {
-	tick.Product = getCode(tick.InstrumentID);
+function buildTickProductID(tick) {
+	tick.ProductID = getProductID(tick.InstrumentID);
 }
 
 function buildTickExchangeID(tick) {
-  tick.ExchangeID = product[tick.Product].ExchangeID;
+  tick.ExchangeID = product[tick.ProductID].ExchangeID;
 }
 
 function isDCE(tick) {
 	return tick.ExchangeID === dict.ExchangeID_DCE;
 }
 
-function getCode(instrumentID) {
+function getProductID(instrumentID) {
   return instrumentID.replace(/\d+/, '');
 }

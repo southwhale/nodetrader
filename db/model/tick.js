@@ -22,7 +22,7 @@ var Tick = db.define(
       'type': Sequelize.CHAR(9),
       'allowNull': false
     },
-    'Product': {
+    'ProductID': {
       'type': Sequelize.CHAR(9),
       'allowNull': false
     },

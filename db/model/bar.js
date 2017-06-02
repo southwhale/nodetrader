@@ -24,7 +24,7 @@ var Bar = db.define(
       'type': Sequelize.CHAR(9),
       'allowNull': false
     },
-    'product': {
+    'productID': {
       'type': Sequelize.CHAR(9),
       'allowNull': false
     },

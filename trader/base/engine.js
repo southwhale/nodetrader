@@ -14,12 +14,19 @@ function Engine(account) {
 
 	this.ctp = ctpmgr.get(account.AccountID);
 
-	this.strategy = account.Strategy || {
+	var strategy = account.Strategy || {
 		name: 'TestStrategy',
 		tradeInstrumentIDList: [], // 要交易的合约 ['ru1709', 'zn1707']
 		subscribeInstrumentIDList: [], // 订阅行情的合约, 之所有和交易的合约不完全一样, 是因为可能需要额外的合约作为参考 ['ru1709', 'rb1710', 'zn1707']
 		param: {}
 	};
+
+	var StrategyClass = require('../strategy/' + strategy.name);
+
+	this.strategy = new StrategyClass();
+	strategy.tradeInstrumentIDList && (this.strategy.tradeInstrumentIDList = strategy.tradeInstrumentIDList);
+	strategy.subscribeInstrumentIDList && (this.strategy.subscribeInstrumentIDList = strategy.subscribeInstrumentIDList);
+	strategy.param && (this.strategy.param = strategy.param);
 
 	var instrumentMap = this.instrumentMap = {};
 
@@ -84,7 +91,7 @@ function Engine(account) {
 			this.instrumentMap[tick.InstrumentID].bar = bar;
 
 			bar.instrumentID = tick.InstrumentID;
-			bar.product = tick.Product;
+			bar.productID = tick.ProductID;
 			bar.exchangeID = tick.ExchangeID;
 			bar.periodDatetime = periodDatetime;
 			bar.open = tick.LastPrice;

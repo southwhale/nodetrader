@@ -6,8 +6,8 @@ var r = {};
 
 object.forEach(product, function(map, exchangeid) {
 	map.list.forEach(function(item) {
-		r[item.code] = {
-			Code: item.code,
+		r[item.productID] = {
+			ProductID: item.productID,
 			ProductName: item.name,
 			ExchangeID: exchangeid,
 			ExchangeName: map.name

@@ -4,55 +4,55 @@
         "list": [
             {
                 "name": "沪铜",
-                "code": "cu"
+                "productID": "cu"
             },
             {
                 "name": "沪铝",
-                "code": "al"
+                "productID": "al"
             },
             {
                 "name": "沪锌",
-                "code": "zn"
+                "productID": "zn"
             },
             {
                 "name": "沪铅",
-                "code": "pb"
+                "productID": "pb"
             },
             {
                 "name": "沪镍",
-                "code": "ni"
+                "productID": "ni"
             },
             {
                 "name": "沪锡",
-                "code": "sn"
+                "productID": "sn"
             },
             {
                 "name": "沪金",
-                "code": "au"
+                "productID": "au"
             },
             {
                 "name": "沪银",
-                "code": "ag"
+                "productID": "ag"
             },
             {
                 "name": "螺纹",
-                "code": "rb"
+                "productID": "rb"
             },
             {
                 "name": "热卷",
-                "code": "hc"
+                "productID": "hc"
             },
             {
                 "name": "燃油",
-                "code": "fu"
+                "productID": "fu"
             },
             {
                 "name": "沥青",
-                "code": "bu"
+                "productID": "bu"
             },
             {
                 "name": "橡胶",
-                "code": "ru"
+                "productID": "ru"
             }
         ]
     },
@@ -61,63 +61,63 @@
         "list": [
             {
                 "name": "豆粕",
-                "code": "m"
+                "productID": "m"
             },
             {
                 "name": "豆油",
-                "code": "y"
+                "productID": "y"
             },
             {
                 "name": "豆一",
-                "code": "a"
+                "productID": "a"
             },
             {
                 "name": "棕榈",
-                "code": "p"
+                "productID": "p"
             },
             {
                 "name": "玉米",
-                "code": "c"
+                "productID": "c"
             },
             {
                 "name": "淀粉",
-                "code": "cs"
+                "productID": "cs"
             },
             {
                 "name": "鸡蛋",
-                "code": "jd"
+                "productID": "jd"
             },
             {
                 "name": "胶板",
-                "code": "bb"
+                "productID": "bb"
             },
             {
                 "name": "纤板",
-                "code": "fb"
+                "productID": "fb"
             },
             {
                 "name": "塑料",
-                "code": "l"
+                "productID": "l"
             },
             {
                 "name": "PVC",
-                "code": "v"
+                "productID": "v"
             },
             {
                 "name": "PP",
-                "code": "pp"
+                "productID": "pp"
             },
             {
                 "name": "焦炭",
-                "code": "j"
+                "productID": "j"
             },
             {
                 "name": "焦煤",
-                "code": "jm"
+                "productID": "jm"
             },
             {
                 "name": "铁矿",
-                "code": "i"
+                "productID": "i"
             }
         ]
     },
@@ -126,63 +126,63 @@
         "list": [
             {
                 "name": "白糖",
-                "code": "SR"
+                "productID": "SR"
             },
             {
                 "name": "郑棉",
-                "code": "CF"
+                "productID": "CF"
             },
             {
                 "name": "郑煤",
-                "code": "ZC"
+                "productID": "ZC"
             },
             {
                 "name": "玻璃",
-                "code": "FG"
+                "productID": "FG"
             },
             {
                 "name": "PTA",
-                "code": "TA"
+                "productID": "TA"
             },
             {
                 "name": "郑醇",
-                "code": "MA"
+                "productID": "MA"
             },
             {
                 "name": "郑麦",
-                "code": "WH"
+                "productID": "WH"
             },
             {
                 "name": "早稻",
-                "code": "RI"
+                "productID": "RI"
             },
             {
                 "name": "晚稻",
-                "code": "LR"
+                "productID": "LR"
             },
             {
                 "name": "粳稻",
-                "code": "JR"
+                "productID": "JR"
             },
             {
                 "name": "菜籽",
-                "code": "RS"
+                "productID": "RS"
             },
             {
                 "name": "郑油",
-                "code": "OI"
+                "productID": "OI"
             },
             {
                 "name": "菜粕",
-                "code": "RM"
+                "productID": "RM"
             },
             {
                 "name": "硅铁",
-                "code": "SF"
+                "productID": "SF"
             },
             {
                 "name": "锰硅",
-                "code": "SM"
+                "productID": "SM"
             }
         ]
     },
@@ -191,23 +191,23 @@
         "list": [
             {
                 "name": "沪深300期货",
-                "code": "IF"
+                "productID": "IF"
             },
             {
                 "name": "上证50期货",
-                "code": "IH"
+                "productID": "IH"
             },
             {
                 "name": "中证500期货",
-                "code": "IC"
+                "productID": "IC"
             },
             {
                 "name": "五年国债",
-                "code": "TF"
+                "productID": "TF"
             },
             {
                 "name": "十年国债",
-                "code": "T"
+                "productID": "T"
             }
         ]
     }
