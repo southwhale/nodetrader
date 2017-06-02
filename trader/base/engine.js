@@ -12,7 +12,7 @@ const Bar = require('./bar');
 function Engine(account) {
 	this.engineName = 'BaseEngine';
 
-	this.ctp = ctpmgr.get(account.accountID);
+	this.ctp = ctpmgr.get(account.AccountID);
 
 	this.strategy = account.Strategy || {
 		name: 'TestStrategy',
@@ -25,8 +25,8 @@ function Engine(account) {
 
 	this.strategy.subscribeInstrumentIDList.forEach(function(instrumentID) {
 		instrumentMap[instrumentID] = {
-			lastbar: null,// 上一根bar
-			bar: new Bar(),// 当前bar
+			lastbar: null, // 上一根bar
+			bar: new Bar(), // 当前bar
 			barList: [],
 			closeList: []
 		};
@@ -53,10 +53,14 @@ function Engine(account) {
 		ntevent.on('/market/tick', this.onTick.bind(this));
 		ntevent.on('/trade/OnRtnOrder', this.onOrder.bind(this));
 		ntevent.on('/trade/OnRtnTrade', this.onTrade.bind(this));
-		ntevent.on('/trade/ReqQryTradingAccount', this.onAccount.bind(this));
+		ntevent.on('/trade/onRspQryTradingAccount', this.onAccount.bind(this));
 		ntevent.on('/trade/OnRspQryInvestorPosition', this.onPosition.bind(this));
 
 		logger.info('%s start!', this.engineName);
+	};
+
+	this.setPeriod = function(period) {
+		this.defaultPeriod = period;
 	};
 
 	this.onTick = function(tick) {
@@ -81,6 +85,7 @@ function Engine(account) {
 
 			bar.instrumentID = tick.InstrumentID;
 			bar.product = tick.Product;
+			bar.exchangeID = tick.ExchangeID;
 			bar.periodDatetime = periodDatetime;
 			bar.open = tick.LastPrice;
 			bar.high = tick.LastPrice;
@@ -187,7 +192,7 @@ function Engine(account) {
   };
 
   /**
-   * @order {Order} 订单
+   * @param order {object} 订单
    * 发送订单
    */
   this.sendOrder = function(order) {
@@ -195,7 +200,7 @@ function Engine(account) {
   };
 
   /**
-   * @order {Order} 订单
+   * @param order {object} 订单
    * 撤单
    */
   this.cancelOrder = function(order) {
@@ -234,14 +239,14 @@ function Engine(account) {
   /**
    * 请求查询资金账户响应
    */
-  this.onAccount = function(data) {
+  this.onAccount = function(data, rsp, nRequestID, bIsLast) {
 
   };
 
   /**
    * 请求查询投资者持仓响应
    */
-  this.onPosition = function(data) {
+  this.onPosition = function(data, rsp, nRequestID, bIsLast) {
 
   };
 

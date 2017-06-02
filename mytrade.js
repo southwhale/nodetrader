@@ -79,14 +79,20 @@ function Trade(ctp, userID) {
 	  ntevent.emit('/trade/OnRtnTrade', data);
 	};
 
+	// 报单操作请求响应
+	this.OnRspOrderAction = function(data, rsp, nRequestID, bIsLast) {
+		ntevent.emit('/trade/OnRspOrderAction', data, rsp,  nRequestID, bIsLast);
+	};
+
 	this.OnRspQryTradingAccount = function(data, rsp, nRequestID, bIsLast) {
 		// logger.info('OnRspQryTradingAccount: %j, %j, %s, %s',  data, rsp, nRequestID, bIsLast);
-		ntevent.emit('/trade/ReqQryTradingAccount', data);
+		ntevent.emit('/trade/OnRspQryTradingAccount', data, rsp, nRequestID, bIsLast);
 	};
 
 	// 请求查询投资者持仓响应
 	this.OnRspQryInvestorPosition = function(data, rsp, nRequestID, bIsLast) {
-		ntevent.emit('/trade/OnRspQryInvestorPosition', data);
+		logger.info('OnRspQryInvestorPosition: %j, %j, %s, %s',  data, rsp, nRequestID, bIsLast);
+		ntevent.emit('/trade/OnRspQryInvestorPosition', data, rsp, nRequestID, bIsLast);
 	};
 
 	this.OnRtnFromFutureToBankByFuture = function(data, rsp, nRequestID, bIsLast) {

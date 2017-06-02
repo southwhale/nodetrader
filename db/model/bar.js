@@ -28,6 +28,10 @@ var Bar = db.define(
       'type': Sequelize.CHAR(9),
       'allowNull': false
     },
+    'exchangeID': {
+      'type': Sequelize.CHAR(9),
+      'allowNull': false
+    },
     'open': {
       'type': Sequelize.DOUBLE,
       'allowNull': false

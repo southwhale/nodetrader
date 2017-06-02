@@ -7,8 +7,8 @@ function Engine() {
 	this.$superConstructor(arguments);
 	this.engineName = 'BacktestEngine';
 
-	this.startDate = null;// 格式: 'YYYYMMDD'
-	this.endDate = null;// 格式: 'YYYYMMDD'
+	this.startDate = null; // 格式: 'YYYYMMDD'
+	this.endDate = null; // 格式: 'YYYYMMDD'
 }
 
 (function() {
@@ -47,6 +47,65 @@ function Engine() {
 	this.setEndDate = function(date) {
 		this.endDate = date;
 	};
+
+	/**
+   * @param order {object} 订单
+   * 发送订单
+   */
+  this.sendOrder = function(order) {
+
+  };
+
+  /**
+   * @param order {object} 订单
+   * 撤单
+   */
+  this.cancelOrder = function(order) {
+
+  };
+
+  /**
+   * 查询账户资金
+   */
+  this.queryAccount = function() {
+
+  };
+
+  /**
+   * 查询持仓
+   */
+  this.queryPosition = function() {
+
+  };
+
+  /**
+   * 报单通知, 订单状态发生变化时的响应
+   * 要区分是下单成功、还是撤单、还是委托成功
+   */
+  this.onOrder = function(data) {
+
+  };
+
+  /**
+   * 成交通知, 订单成交时的响应
+   */
+  this.onTrade = function(data) {
+
+  };
+
+  /**
+   * 请求查询资金账户响应
+   */
+  this.onAccount = function(data, rsp, nRequestID, bIsLast) {
+
+  };
+
+  /**
+   * 请求查询投资者持仓响应
+   */
+  this.onPosition = function(data, rsp, nRequestID, bIsLast) {
+
+  };
 
 	function loadTicks(instrumentIDList, lastid) {
 		Tick.findAll({

@@ -1,3 +1,4 @@
+// 注意product.json中的作为key的交易所ID必须大写
 const product = require('../config/product.json');
 const object = require('iguzhi/object');
 

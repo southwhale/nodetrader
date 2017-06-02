@@ -4,10 +4,13 @@ const product = require('../product');
 const setting = require('../../config/setting.json');
 const Ctp = require('../../lib/ctp');
 const Tick = require('../../db/model/tick');
+const dict = require('../base/dict');
 
 
 ntevent.on('/market/OnRtnDepthMarketData', function(tick) {
+  // 下面三个函数调用顺序不能乱, 顺序依赖
 	buildTickProduct(tick);
+  buildTickExchangeID(tick);
 	buildTickLogtime(tick);
   // 发送给交易引擎
   ntevent.emit('/market/tick', tick);
@@ -47,8 +50,12 @@ function buildTickProduct(tick) {
 	tick.Product = getCode(tick.InstrumentID);
 }
 
+function buildTickExchangeID(tick) {
+  tick.ExchangeID = product[tick.Product].ExchangeID;
+}
+
 function isDCE(tick) {
-	return product[tick.Product].ExchangeID === 'dce';
+	return tick.ExchangeID === dict.ExchangeID_DCE;
 }
 
 function getCode(instrumentID) {

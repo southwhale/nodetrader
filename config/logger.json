@@ -4,7 +4,7 @@
 		"ctpapp": "INFO",
 		"email": "INFO",
 		"schedule": "INFO",
-		"db": "INFO",
+		"db": "ERROR",
 		"tengine": "INFO"
 	}
 }
