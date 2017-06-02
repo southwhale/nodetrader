@@ -1,4 +1,4 @@
-// 订单字段选项字典
+// 所有可能用到的字典
 
 var dict = {
 	Direction_Buy: '0',
