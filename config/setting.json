@@ -1,9 +1,9 @@
-﻿{
+{
 	"4040": {
 		"flowpath": "./con",
 		"BrokerID": "4040",
-	  "MdURL": "tcp://180.166.103.21:51213",
-	  "TdURL": "tcp://180.166.103.21:51205",
+	  	"MdURL": "tcp://180.166.103.21:51213",
+	  	"TdURL": "tcp://180.166.103.21:51205",
 		"defaultRemindLossList": [
 			{
 				"at": 500,
@@ -21,17 +21,8 @@
 				"FundPassword": "123456",
 				"BankID": "5",
 				"Trader": "交易员名字",
-				"Email": "yourmail@qq.com",
-				"Strategy": {
-					"name": "TestStrategy",
-					"tradeInstrumentIDList": ["zn1707", "ru1709"],
-					"subscribeInstrumentIDList": ["zn1707", "ru1709", "rb1710", "T1709"],
-					"param": {
-						"param1": "**",
-						"param2": "**",
-						"paramn": "**"
-					}
-				},
+				"Email": "交易员邮箱地址",
+				"Strategy": "TestStrategy",
 				"Stop": {
 					"at": 2000,
 					"type": "fund",
