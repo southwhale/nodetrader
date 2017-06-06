@@ -18,54 +18,30 @@ function Trade(ctp, userID) {
 	  	ConfirmDate: data.TradingDay,
 	  	ConfirmTime: data.SHFETime
 	  }, this.ctp.nRequestID());
-	  // ctp.td.ReqQryTradingAccount(account, ctp.nRequestID());
-	  //logger.info('ReqQryTradingAccount=', ctp.td.ReqQryTradingAccount(q, (new Date()).valueOf()/1000));
-	  //sleep(2000);
-	  //logger.info('ReqQryInvestorPosition=', ctp.td.ReqQryInvestorPosition(q, (new Date()).valueOf()/1000));
-	  //logger.info('ReqQryTrade=', ctp.td.ReqQryTrade(q, (new Date()).valueOf()/1000));
-	  //logger.info('ReqQryOrder=', ctp.td.ReqQryOrder(q, (new Date()).valueOf()/1000));
-	  //logger.info('ReqQryProduct=', ctp.td.ReqQryProduct(q, (new Date()).valueOf()/1000));
-	  //logger.info('ReqQryInstrument=', ctp.td.ReqQryInstrument(q, (new Date()).valueOf()/1000));
-	  //logger.info('-----before ReqQryContractBank-----')
-	  // ctp.td.ReqQryContractBank({
-	  // 	BankID: '5',
-			// BankBranchID: '0000',
-			// BrokerID: '4040',
-	  // }, ctp.nRequestID());
-	  // logger.info('-----after ReqQryContractBank-----')
 
-	  //ReqFromBankToFutureByFuture
-		// ctp.td.ReqFromFutureToBankByFuture({
-		// 	TradeCode: '202002',
-		// 	BankID: '5',
-		// 	BankBranchID: '0000',
-		// 	BrokerID: '4040',
-		// 	BankAccount: '', // 是否必填, 不确定
-		// 	BankPassWord: '',
-		// 	AccountID: account.UserID,
-		// 	Password: account.FundPassword,
-		// 	SecuPwdFlag: '1',// 明文核对
-		// 	CurrencyID: 'CNY',
-		// 	TradeAmount: 2000
-		// }, ctp.nRequestID());
-
-		// ctp.td.ReqFromBankToFutureByFuture({
-		// 	TradeCode: '202001',
-		// 	BankID: '5',
-		// 	BankBranchID: '0000',
-		// 	BrokerID: '4040',
-		// 	BankAccount: '', // 是否必填, 不确定
-		// 	BankPassWord: '',
-		// 	AccountID: account.UserID,
-		// 	Password: account.FundPassword,
-		// 	SecuPwdFlag: '1',// 明文核对
-		// 	CurrencyID: 'CNY',
-		// 	TradeAmount: 2000
-		// }, ctp.nRequestID());
+	  // 查询交易所信息
+	  this.ctp.td.ReqQryExchange({}, this.ctp.nRequestID());
 	};
 
 	this.OnRspUserLogout = function(data, rsp, nRequestID, bIsLast) {
 	  logger.info('OnRspUserLogout : %j, %j, %s, %s', data, rsp, nRequestID, bIsLast);
+	};
+	// 请求查询交易所响应
+	this.OnRspQryExchange = function(data, rsp, nRequestID, bIsLast) {
+		ntevent.emit('/trade/OnRspQryExchange', data);
+		// 查询产品信息
+		if (bIsLast) {
+			var me = this;
+			// 查询交易所和查询产品同属于查询接口, 时间间隔至少为1秒
+			setTimeout(function() {
+				me.ctp.td.ReqQryProduct({}, me.ctp.nRequestID());
+			}, 1000);
+		}
+	};
+	// 请求查询产品响应
+	this.OnRspQryProduct = function(data, rsp, nRequestID, bIsLast) {
+		ntevent.emit('/trade/OnRspQryProduct', data);
+		bIsLast && ntevent.emit('/market/SubscribeMarketData', this.ctp);
 	};
 	// 报单通知
 	this.OnRtnOrder = function(data) {
@@ -95,12 +71,12 @@ function Trade(ctp, userID) {
 		ntevent.emit('/trade/OnRspQryInvestorPosition', data, rsp, nRequestID, bIsLast);
 	};
 
-	this.OnRtnFromFutureToBankByFuture = function(data, rsp, nRequestID, bIsLast) {
-		logger.info('OnRtnFromFutureToBankByFuture: %j, %j, %s, %s',  data, rsp, nRequestID, bIsLast);
+	this.OnRtnFromFutureToBankByFuture = function(data) {
+		logger.info('OnRtnFromFutureToBankByFuture: %j',  data);
 	};
 
-	this.OnRtnFromBankToFutureByFuture = function(data, rsp, nRequestID, bIsLast) {
-		logger.info('OnRtnFromBankToFutureByFuture: %j, %j, %s, %s',  data, rsp, nRequestID, bIsLast);
+	this.OnRtnFromBankToFutureByFuture = function(data) {
+		logger.info('OnRtnFromBankToFutureByFuture: %j',  data);
 		// ctp.td.ReqTradingAccountPasswordUpdate({
 		// 	BrokerID: '4040',
 		// 	AccountID: '',

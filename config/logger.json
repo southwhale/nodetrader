@@ -5,6 +5,7 @@
 		"email": "INFO",
 		"schedule": "INFO",
 		"db": "ERROR",
-		"tengine": "INFO"
+		"tengine": "INFO",
+		"strategy": "ERROR"
 	}
 }

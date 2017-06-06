@@ -7,6 +7,9 @@ const ntevent = require('../../lib/ntevent');
 const logger = require('../../lib/logger').tengine;
 const moment = require('moment');
 const Bar = require('./bar');
+const dict = require('./dict');
+const constant = require('./constant');
+const strategyCfg = require('../../config/strategy.json');
 
 // 为了适配回测引擎, 这里需要传入account而不是accountID
 function Engine(account) {
@@ -14,21 +17,28 @@ function Engine(account) {
 
 	this.ctp = ctpmgr.get(account.AccountID);
 
-	var strategy = account.Strategy || {
-		name: 'TestStrategy',
-		tradeInstrumentIDList: [], // 要交易的合约 ['ru1709', 'zn1707']
-		subscribeInstrumentIDList: [], // 订阅行情的合约, 之所有和交易的合约不完全一样, 是因为可能需要额外的合约作为参考 ['ru1709', 'rb1710', 'zn1707']
-		param: {}
-	};
+	var strategy = strategyCfg[account.Strategy || 'DefaultStrategy'];
 
-	var StrategyClass = require('../strategy/' + strategy.name);
+	// 策略的字段应如下:
+	// {
+	// 	strategyName: 'DefaultStrategy',
+	// 	tradeInstrumentIDList: [], // 要交易的合约 ['ru1709', 'zn1707']
+	//  initDays: 22, // 需要预加载存储在数据库Bar的天数, 在交易开始之前需要先获取前initDays天的Bar数据用于交易时分析
+	// 	subscribeInstrumentIDList: [], // 订阅行情的合约, 之所有和交易的合约不完全一样, 是因为可能需要额外的合约作为参考 ['ru1709', 'rb1710', 'zn1707']
+	// 	param: {}
+	// }
+
+	var StrategyClass = require('../strategy/' + strategy.strategyName);
 
 	this.strategy = new StrategyClass();
+
 	strategy.tradeInstrumentIDList && (this.strategy.tradeInstrumentIDList = strategy.tradeInstrumentIDList);
-	strategy.subscribeInstrumentIDList && (this.strategy.subscribeInstrumentIDList = strategy.subscribeInstrumentIDList);
+	this.strategy.subscribeInstrumentIDList = strategy.subscribeInstrumentIDList || this.strategy.tradeInstrumentIDList;
+	this.strategy.initDays = strategy.initDays || constant.strategy_defaultInitDays;
 	strategy.param && (this.strategy.param = strategy.param);
 
 	var instrumentMap = this.instrumentMap = {};
+	strategy = this.strategy;
 
 	this.strategy.subscribeInstrumentIDList.forEach(function(instrumentID) {
 		instrumentMap[instrumentID] = {
@@ -37,7 +47,14 @@ function Engine(account) {
 			barList: [],
 			closeList: []
 		};
+
+		strategy.orderMap[instrumentID] = {};
+		strategy.tradeMap[instrumentID] = {};
+		strategy.positionBuffer.init(instrumentID);
 	});
+
+	// 产品信息, 启动时会根据引擎的不同加载product或localproduct
+	this.product = null;
 
 	this.pattern = {
 		datetime: 'YYYY/MM/DD HH:mm:ss',
@@ -52,6 +69,8 @@ function Engine(account) {
 		type: 'minute',
 		value: 1
 	};
+
+	this.localOrderRef = 0;
 }
 
 (function() {
@@ -62,8 +81,21 @@ function Engine(account) {
 		ntevent.on('/trade/OnRtnTrade', this.onTrade.bind(this));
 		ntevent.on('/trade/onRspQryTradingAccount', this.onAccount.bind(this));
 		ntevent.on('/trade/OnRspQryInvestorPosition', this.onPosition.bind(this));
+		ntevent.on('/market/SubscribeMarketData', this.subscribeMarket.bind(this));
+
+		this.loadProduct();
+		this.preload &&
 
 		logger.info('%s start!', this.engineName);
+	};
+
+	this.loadProduct = function() {
+		var productModulePath = this.engineName === 'FirmEngine' ? '../product' : '../localproduct';
+		this.product = require(productModulePath);
+	};
+
+	this.subscribeMarket = function(ctp) {
+		
 	};
 
 	this.setPeriod = function(period) {
@@ -103,6 +135,7 @@ function Engine(account) {
 			bar.closeVolume = tick.Volume;
 			bar.volume = bar.closeVolume - bar.openVolume;
 			bar.openInterest = tick.OpenInterest;
+			bar.turnover = tick.Turnover;
 
 		}
 		else {
@@ -112,9 +145,10 @@ function Engine(account) {
       bar.closeVolume = tick.Volume;
       bar.volume = bar.closeVolume - bar.openVolume;
       bar.openInterest = tick.OpenInterest;
+      bar.turnover = tick.Turnover;
 		}
 
-		this.onCurrentMinuteBar(bar, instmap.lastbar, tick);
+		this.onCurrentMinuteBarAndTick(bar, instmap.lastbar, tick, instmap.barList, this);
 	};
 
 	/**
@@ -122,6 +156,8 @@ function Engine(account) {
 	 * 只有一分钟走完之后才会计算这一分钟的ma和macd指标
 	 */
 	this.onLastMinuteBar = function(lastbar, tick) {
+		lastbar.settlement = lastbar.turnover / lastbar.closeVolume / this.product[lastbar.productID].VolumeMultiple;
+		
 		var instmap = this.instrumentMap[tick.InstrumentID];
 
 		instmap.barList.push(lastbar);
@@ -149,24 +185,28 @@ function Engine(account) {
 		lastbar.signalLine = signalLineList[signalLineList.length - 1] || null;
 		lastbar.histogram = histogramList[histogramList.length - 1] || null;
 
+		this.strategy.onLastMinuteBar(lastbar, tick, instmap.barList, this);
+
 		// 保存指标到数据库, 供交易前预加载进来使用, 省去再次计算的时间
 		// 只有实盘时才会保存, 回测时不用保存
 		if (lang.isFunction(this.saveBar)) {
 			this.saveBar(lastbar);
 		}
 
-		logger.info('%j', lastbar);
+		// logger.info('%j', lastbar);
 	};
 
 	/**
 	 * @param bar {Bar} 当前分钟bar
 	 * @param lastbar {Bar} 前一分钟bar, 注意每天第一根bar生成的时候lastbar还没有生成
 	 * @param tick {object} 从交易所服务器推送而来的tick
+	 * @param barList {Array} bar列表
+	 * @param engine {Engine} 交易引擎, 可能是实盘也可能是回测
 	 * 到这一步时, 前一分钟bar所有需要的技术指标都已计算完成
 	 * 具体交易逻辑应该写在这里
 	 */
-	this.onCurrentMinuteBar = function(bar, lastbar, tick) {
-
+	this.onCurrentMinuteBarAndTick = function(bar, lastbar, tick, barList, engine) {
+		this.strategy.onCurrentMinuteBarAndTick(bar, lastbar, tick, barList, engine);
 	};
 
 
@@ -196,6 +236,51 @@ function Engine(account) {
     }
 
     return ret;
+  };
+
+  this.nOrderRef = function() {
+  	return ++this.localOrderRef;
+  };
+
+  // 买开
+  this.buyOpen = function(instrumentID, price, volume) {
+  	this.sendOrder({
+  		InstrumentID: instrumentID,
+  		Direction: dict.Direction_Buy,
+  		CombOffsetFlag: dict.OffsetFlag_Open,
+  		LimitPrice: price,
+  		VolumeTotalOriginal: volume
+  	});
+  };
+  // 卖开
+  this.sellOpen = function(instrumentID, price, volume) {
+  	this.sendOrder({
+  		InstrumentID: instrumentID,
+  		Direction: dict.Direction_Sell,
+  		CombOffsetFlag: dict.OffsetFlag_Open,
+  		LimitPrice: price,
+  		VolumeTotalOriginal: volume
+  	});
+  };
+  // 买平
+  this.buyClose = function(instrumentID, price, volume) {
+  	this.sendOrder({
+  		InstrumentID: instrumentID,
+  		Direction: dict.Direction_Buy,
+  		CombOffsetFlag: dict.OffsetFlag_Close,
+  		LimitPrice: price,
+  		VolumeTotalOriginal: volume
+  	});
+  };
+  // 卖平
+  this.sellClose = function(instrumentID, price, volume) {
+  	this.sendOrder({
+  		InstrumentID: instrumentID,
+  		Direction: dict.Direction_Sell,
+  		CombOffsetFlag: dict.OffsetFlag_Close,
+  		LimitPrice: price,
+  		VolumeTotalOriginal: volume
+  	});
   };
 
   /**
@@ -233,28 +318,38 @@ function Engine(account) {
    * 要区分是下单成功、还是撤单、还是委托成功
    */
   this.onOrder = function(data) {
-
+  	// 更新本地localOrderRef
+  	this.localOrderRef = Math.max(this.localOrderRef, data.OrderRef);
+  	// 更新策略订单缓存
+  	this.strategy.updateOrderMap(data);
+  	// 转发给策略
+  	this.strategy.onOrder(data);
   };
 
   /**
    * 成交通知, 订单成交时的响应
    */
   this.onTrade = function(data) {
-
+  	// 更新策略成交缓存
+  	this.strategy.updateTradeMap(data);
+  	// 转发给策略
+  	this.strategy.onTrade(data);
   };
 
   /**
    * 请求查询资金账户响应
    */
   this.onAccount = function(data, rsp, nRequestID, bIsLast) {
-
+  	// 转发给策略
+  	this.strategy.onAccount(data, rsp, nRequestID, bIsLast);
   };
 
   /**
    * 请求查询投资者持仓响应
    */
   this.onPosition = function(data, rsp, nRequestID, bIsLast) {
-
+  	// 转发给策略
+  	this.strategy.onPosition(data, rsp, nRequestID, bIsLast);
   };
 
 }).call(Engine.prototype);

@@ -17,6 +17,7 @@ function Bar() {
 
 	this.volume = null; // 成交量
 	this.openInterest = null; //持仓量
+	this.settlement = null; // 分时图黄线均价, 也就是实时的结算价
 
 	// 均线部分
 	this.ma5 = null;

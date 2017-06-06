@@ -1,18 +1,16 @@
-// 注意product.json中的作为key的交易所ID必须大写
-const product = require('../config/product.json');
-const object = require('iguzhi/object');
+const ntevent = require('../lib/ntevent');
 
-var r = {};
+var exchangeMap = {};
+var productMap = {};
 
-object.forEach(product, function(map, exchangeid) {
-	map.list.forEach(function(item) {
-		r[item.productID] = {
-			ProductID: item.productID,
-			ProductName: item.name,
-			ExchangeID: exchangeid,
-			ExchangeName: map.name
-		};
-	});
+ntevent.on('/trade/OnRspQryExchange', function(data) {
+	exchangeMap[data.ExchangeID] = data;
 });
 
-module.exports = r;
+ntevent.on('/trade/OnRspQryProduct', function(data) {
+	var exchange = exchangeMap[data.ExchangeID];
+	data.ExchangeName = exchange.ExchangeName;
+	productMap[data.ProductID] = data;
+});
+
+module.exports = productMap;

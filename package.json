@@ -16,6 +16,7 @@
     "nodemailer": "^4.0.1",
     "sequelize": "^3.30.4",
     "socket.io": "^1.7.4",
+    "yargs": "^8.0.1",
     "ta-lib.macd": "0.0.4",
     "ta-lib.sma": "0.0.6",
     "ta-lib.sum": "0.0.2"

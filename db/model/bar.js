@@ -56,6 +56,10 @@ var Bar = db.define(
       'type': Sequelize.INTEGER,
       'allowNull': false
     },
+    'settlement': { // 分时图黄线均价, 也就是实时的结算价
+      'type': Sequelize.DOUBLE,
+      'allowNull': false
+    },
     'ma5': {
       'type': Sequelize.DOUBLE,
       'allowNull': true
