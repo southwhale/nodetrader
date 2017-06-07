@@ -6,6 +6,14 @@ const BarModel = require('../../db/model/bar');
 const Bar= require('./bar');
 const PositionBuffer = require('./positionbuffer');
 
+// 策略的字段应如下:
+// {
+//  strategyName: 'DefaultStrategy',
+//  tradeInstrumentIDList: [], // 要交易的合约 ['ru1709', 'zn1707']
+//  initDays: 22, // 需要预加载存储在数据库Bar的天数, 在交易开始之前需要先获取前initDays天的Bar数据用于交易时分析
+//  subscribeInstrumentIDList: [], // 订阅行情的合约, 之所有和交易的合约不完全一样, 是因为可能需要额外的合约作为参考 ['ru1709', 'rb1710', 'zn1707']
+//  param: {}
+// }
 function Strategy(strategy) {
 	this.strategyName = 'BaseStrategy';
 	this.logger = logger;
