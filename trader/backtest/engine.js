@@ -1,16 +1,17 @@
 const Class = require('iguzhi/class');
-const Tick = require('../../db/model/tick');
+const TickModel = require('../../db/model/tick');
 const ntevent = require('../../lib/ntevent');
 const moment = require('moment');
 const Order = require('../base/order');
+const constant = require('../base/constant');
 const dict = require('../base/dict');
 
 function Engine() {
 	this.$superConstructor(arguments);
 	this.engineName = 'BacktestEngine';
 
-	this.startDate = null; // 格式: 'YYYYMMDD'
-	this.endDate = null; // 格式: 'YYYYMMDD'
+	this.startDateTime = null; // 格式: 'YYYY/MM/DD HH:mm:ss'
+	this.endDateTime = null; // 格式: 'YYYY/MM/DD HH:mm:ss'
 	this.step = 10000; // 加载tick数据条数的步长
 }
 
@@ -20,17 +21,17 @@ function Engine() {
 		var instrumentIDList = this.strategy.subscribeInstrumentIDList;
 
 		var option = {};
-		if (this.startDate) {
-			option.$gte = moment(this.startDate, 'YYYYMMDD').valueOf();
+		if (this.startDateTime) {
+			option.$gte = moment(this.startDateTime, constant.pattern_datetime).valueOf();
 		}
 
-		if (this.endDate) {
-			option.$lt = moment(this.endDate, 'YYYYMMDD').valueOf();
+		if (this.endDateTime) {
+			option.$lt = moment(this.endDateTime, constant.pattern_datetime).valueOf();
 		}
 
 		var me = this;
 
-		Tick.findOne({
+		TickModel.findOne({
 			where: {
 				InstrumentID: {
 					$in: instrumentIDList
@@ -45,12 +46,12 @@ function Engine() {
 		});
 	};
 
-	this.setStartDate = function(date) {
-		this.startDate = date;
+	this.setStartDateTime = function(dateTime) {
+		this.startDateTime = dateTime;
 	};
 
-	this.setEndDate = function(date) {
-		this.endDate = date;
+	this.setEndDateTime = function(dateTime) {
+		this.endDateTime = dateTime;
 	};
 
 	this.setStep = function(step) {
@@ -116,7 +117,7 @@ function Engine() {
 	this.loadTicks = function (instrumentIDList, lastid) {
 		var me = this;
 
-		Tick.findAll({
+		TickModel.findAll({
 			where: {
 				InstrumentID: {
 					$in: instrumentIDList

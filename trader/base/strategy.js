@@ -1,21 +1,93 @@
 // 策略基类, 所有自定义策略需继承此类
 const logger = require('../../lib/logger').strategy;
-const dict = require('./dict');
+const moment = require('moment');
+const constant = require('./constant');
+const BarModel = require('../../db/model/bar');
+const Bar= require('./bar');
 const PositionBuffer = require('./positionbuffer');
 
-function Strategy() {
+function Strategy(strategy) {
 	this.strategyName = 'BaseStrategy';
-	this.tradeInstrumentIDList = [];
-	this.subscribeInstrumentIDList = [];
-	this.param = {};
 	this.logger = logger;
+
+  this.tradeInstrumentIDList = strategy.tradeInstrumentIDList || [];
+  this.subscribeInstrumentIDList = strategy.subscribeInstrumentIDList || strategy.tradeInstrumentIDList || [];
+  this.initDays = strategy.initDays || constant.strategy_defaultInitDays;
+  this.param = strategy.param || {};
+
+  this.instrumentMap = {};
+
+  // 产品信息, 交易引擎启动时会根据引擎的不同加载product或localproduct
+  this.product = null;
 
 	this.orderMap = {}; // 已提交订单的缓存
 	this.tradeMap = {}; // 成交回报的缓存
 	this.positionBuffer = new PositionBuffer();
+
+  var me = this;
+
+  this.subscribeInstrumentIDList.forEach(function(instrumentID) {
+    me.instrumentMap[instrumentID] = {
+      lastbar: null, // 上一根bar
+      bar: new Bar(), // 当前bar
+      barList: [],
+      closeList: []
+    };
+
+    me.orderMap[instrumentID] = {};
+    me.tradeMap[instrumentID] = {};
+    me.positionBuffer.init(instrumentID);
+  });
 }
 
 (function() {
+
+  this.init = function(engine) {
+    this.loadProduct(engine);
+    this.preload(engine);
+  };
+
+  this.preload = function(engine) {
+    var endTime = engine.engineName === 'BacktestEngine' 
+      ? moment(engine.startDateTime, constant.pattern_datetime).valueOf()
+      : new Date().getTime();
+
+    var startTime = endTime - this.initDays * 86400000;
+
+    startTime = moment(startTime).format(constant.pattern_minuteBarPeriod);
+    endTime = moment(endTime).format(constant.pattern_minuteBarPeriod);
+
+    var instrumentMap = this.instrumentMap;
+
+    BarModel.findAll({
+      where: {
+        InstrumentID: {
+          $in: this.tradeInstrumentIDList
+        },
+        periodDatetime: {
+          $gte: startTime,
+          $lt: endTime
+        }
+      },
+      order: 'id DESC'
+    })
+    .then(function(list) {
+      if (!list.length) {
+        return;
+      }
+      
+      list.forEach(function(bar, i, list) {
+        bar = bar.toJSON();
+        var instmap = instrumentMap[bar.instrumentID];
+        instmap.barList.unshift(bar);
+      });
+    });
+  };
+
+  this.loadProduct = function(engine) {
+    var productModulePath = engine.engineName === 'FirmEngine' ? '../product' : '../localproduct';
+    this.product = require(productModulePath);
+  };
 	/**
 	 * @param bar {Bar} 当前分钟bar
 	 * @param lastbar {Bar} 前一分钟bar, 注意每天第一根bar生成的时候lastbar还没有生成

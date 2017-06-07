@@ -7,8 +7,8 @@ const ntevent = require('../../lib/ntevent');
 const logger = require('../../lib/logger').tengine;
 const moment = require('moment');
 const Bar = require('./bar');
-const dict = require('./dict');
 const constant = require('./constant');
+const dict = require('./dict');
 const strategyCfg = require('../../config/strategy.json');
 
 // 为了适配回测引擎, 这里需要传入account而不是accountID
@@ -29,40 +29,7 @@ function Engine(account) {
 	// }
 
 	var StrategyClass = require('../strategy/' + strategy.strategyName);
-
-	this.strategy = new StrategyClass();
-
-	strategy.tradeInstrumentIDList && (this.strategy.tradeInstrumentIDList = strategy.tradeInstrumentIDList);
-	this.strategy.subscribeInstrumentIDList = strategy.subscribeInstrumentIDList || this.strategy.tradeInstrumentIDList;
-	this.strategy.initDays = strategy.initDays || constant.strategy_defaultInitDays;
-	strategy.param && (this.strategy.param = strategy.param);
-
-	var instrumentMap = this.instrumentMap = {};
-	strategy = this.strategy;
-
-	this.strategy.subscribeInstrumentIDList.forEach(function(instrumentID) {
-		instrumentMap[instrumentID] = {
-			lastbar: null, // 上一根bar
-			bar: new Bar(), // 当前bar
-			barList: [],
-			closeList: []
-		};
-
-		strategy.orderMap[instrumentID] = {};
-		strategy.tradeMap[instrumentID] = {};
-		strategy.positionBuffer.init(instrumentID);
-	});
-
-	// 产品信息, 启动时会根据引擎的不同加载product或localproduct
-	this.product = null;
-
-	this.pattern = {
-		datetime: 'YYYY/MM/DD HH:mm:ss',
-		date: 'YYYY/MM/DD',
-		time: 'HH:mm:ss',
-		minuteBarPeriod: 'YYYY/MM/DD HH:mm',
-		secondBarPeriod: 'YYYY/MM/DD HH:mm:ss'
-	};
+	this.strategy = new StrategyClass(strategy);
 
 	// 默认指标周期为1分钟
 	this.defaultPeriod = {
@@ -81,21 +48,11 @@ function Engine(account) {
 		ntevent.on('/trade/OnRtnTrade', this.onTrade.bind(this));
 		ntevent.on('/trade/onRspQryTradingAccount', this.onAccount.bind(this));
 		ntevent.on('/trade/OnRspQryInvestorPosition', this.onPosition.bind(this));
-		ntevent.on('/market/SubscribeMarketData', this.subscribeMarket.bind(this));
+		this.subscribeMarket && ntevent.on('/market/SubscribeMarketData', this.subscribeMarket.bind(this));
 
-		this.loadProduct();
-		this.preload &&
+		this.strategy.init(this);
 
 		logger.info('%s start!', this.engineName);
-	};
-
-	this.loadProduct = function() {
-		var productModulePath = this.engineName === 'FirmEngine' ? '../product' : '../localproduct';
-		this.product = require(productModulePath);
-	};
-
-	this.subscribeMarket = function(ctp) {
-		
 	};
 
 	this.setPeriod = function(period) {
@@ -105,12 +62,12 @@ function Engine(account) {
 	this.onTick = function(tick) {
 		// tick.moment = moment(tick.LogTime);
 
-		// tick.datetime = tick.moment.format(this.pattern.datetime);
-		// tick.date = tick.moment.format(this.pattern.date);
-		// tick.time = tick.moment.format(this.pattern.time);
+		// tick.datetime = tick.moment.format(constant.pattern_datetime);
+		// tick.date = tick.moment.format(constant.pattern_date);
+		// tick.time = tick.moment.format(constant.pattern_time);
 
 		var periodDatetime = this.getPeriodDatetimeByPeriod(tick.LogTime, this.defaultPeriod);
-		var instmap = this.instrumentMap[tick.InstrumentID];
+		var instmap = this.strategy.instrumentMap[tick.InstrumentID];
 		var bar = instmap.bar;
 
 		if (periodDatetime != bar.periodDatetime) {
@@ -120,7 +77,7 @@ function Engine(account) {
 			}
 
 			bar = new Bar();
-			this.instrumentMap[tick.InstrumentID].bar = bar;
+			this.strategy.instrumentMap[tick.InstrumentID].bar = bar;
 
 			bar.instrumentID = tick.InstrumentID;
 			bar.productID = tick.ProductID;
@@ -156,9 +113,9 @@ function Engine(account) {
 	 * 只有一分钟走完之后才会计算这一分钟的ma和macd指标
 	 */
 	this.onLastMinuteBar = function(lastbar, tick) {
-		lastbar.settlement = lastbar.turnover / lastbar.closeVolume / this.product[lastbar.productID].VolumeMultiple;
-		
-		var instmap = this.instrumentMap[tick.InstrumentID];
+		lastbar.settlement = lastbar.turnover / lastbar.closeVolume / this.strategy.product[lastbar.productID].VolumeMultiple;
+
+		var instmap = this.strategy.instrumentMap[tick.InstrumentID];
 
 		instmap.barList.push(lastbar);
 		
@@ -224,14 +181,14 @@ function Engine(account) {
         var seconds = date.getSeconds();
         var secondInteger = parseInt(seconds / period.value);
         date.setSeconds(secondInteger * period.value);
-        ret = moment(date).format(this.pattern.secondBarPeriod);
+        ret = moment(date).format(constant.pattern_secondBarPeriod);
         break;
       case 'minute':
       default:
         var minutes = date.getMinutes();
         var minuteInteger = parseInt(minutes / period.value);
         date.setMinutes(minuteInteger * period.value);
-        ret = moment(date).format(this.pattern.minuteBarPeriod);
+        ret = moment(date).format(constant.pattern_minuteBarPeriod);
         break;
     }
 

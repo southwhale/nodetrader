@@ -11,7 +11,7 @@ var st = setting[brokeID];
 var accountID = '369863';
 
 var e = new Engine(st.accountMap[accountID]);
-e.setStartDate('20170522');
+e.setStartDateTime('2017/05/22 00:00:00');
 e.prepare();
 
 e.start();
