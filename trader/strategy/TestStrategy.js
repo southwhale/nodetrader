@@ -8,11 +8,11 @@ function TestStrategy() {
 
 (function() {
 	/**
-	 * @param bar {Bar} 当前分钟bar
-	 * @param lastbar {Bar} 前一分钟bar, 注意每天第一根bar生成的时候lastbar还没有生成
-	 * @param tick {object} 从交易所服务器推送而来的tick
-	 * @param barList {Array} bar列表
-	 * @param engine {Engine} 交易引擎, 可能是实盘也可能是回测
+	 * @param {Bar} bar 当前分钟bar
+	 * @param {Bar} lastbar 前一分钟bar, 注意每天第一根bar生成的时候lastbar还没有生成
+	 * @param {Object} tick 从交易所服务器推送而来的tick
+	 * @param {Array} barList bar列表
+	 * @param {Engine} engine 交易引擎, 可能是实盘也可能是回测
 	 * 到这一步时, 前一分钟bar所有需要的技术指标都已计算完成
 	 * 具体交易逻辑应该写在这里
 	 */

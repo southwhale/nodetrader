@@ -145,11 +145,11 @@ function Engine(account) {
 	};
 
 	/**
-	 * @param bar {Bar} 当前分钟bar
-	 * @param lastbar {Bar} 前一分钟bar, 注意每天第一根bar生成的时候lastbar还没有生成
-	 * @param tick {object} 从交易所服务器推送而来的tick
-	 * @param barList {Array} bar列表
-	 * @param engine {Engine} 交易引擎, 可能是实盘也可能是回测
+	 * @param {Bar} bar 当前分钟bar
+	 * @param {Bar} lastbar 前一分钟bar, 注意每天第一根bar生成的时候lastbar还没有生成
+	 * @param {Object} tick 从交易所服务器推送而来的tick
+	 * @param {Array} barList bar列表
+	 * @param {Engine} engine 交易引擎, 可能是实盘也可能是回测
 	 * 到这一步时, 前一分钟bar所有需要的技术指标都已计算完成
 	 * 具体交易逻辑应该写在这里
 	 */
@@ -159,9 +159,9 @@ function Engine(account) {
 
 
 	/**
-	 * @param {int} logTime
-	 * @param {object} period
-	 * @return {string}
+	 * @param {Integer} logTime
+	 * @param {Object} period
+	 * @return {String}
 	 * 计算指标周期的时间, 目前只支持 秒和分钟的周期
 	 */
 	this.getPeriodDatetimeByPeriod = function(logTime, period) {
@@ -232,7 +232,7 @@ function Engine(account) {
   };
 
   /**
-   * @param order {object} 订单
+   * @param {Object} order 订单
    * 发送订单
    */
   this.sendOrder = function(order) {
@@ -240,7 +240,7 @@ function Engine(account) {
   };
 
   /**
-   * @param order {object} 订单
+   * @param {Object} order 订单
    * 撤单
    */
   this.cancelOrder = function(order) {

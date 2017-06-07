@@ -96,12 +96,13 @@ function Strategy(strategy) {
     var productModulePath = engine.engineName === 'FirmEngine' ? '../product' : '../localproduct';
     this.product = require(productModulePath);
   };
+
 	/**
-	 * @param bar {Bar} 当前分钟bar
-	 * @param lastbar {Bar} 前一分钟bar, 注意每天第一根bar生成的时候lastbar还没有生成
-	 * @param tick {object} 从交易所服务器推送而来的tick
-	 * @param barList {Array} bar列表
-	 * @param engine {Engine} 交易引擎, 可能是实盘也可能是回测
+	 * @param {Bar} bar 当前分钟bar
+	 * @param {Bar} lastbar 前一分钟bar, 注意每天第一根bar生成的时候lastbar还没有生成
+	 * @param {Object} tick 从交易所服务器推送而来的tick
+	 * @param {Array} barList bar列表
+	 * @param {Engine} engine 交易引擎, 可能是实盘也可能是回测
 	 * 到这一步时, 前一分钟bar所有需要的技术指标都已计算完成
 	 * 具体交易逻辑应该写在这里
 	 */
@@ -131,21 +132,28 @@ function Strategy(strategy) {
   	this.positionBuffer.add(data);
   };
   /**
-   * @param data {String|Object} 合约代码或包含合约代码的对象
+   * @param {String|Object} data 合约代码或包含合约代码的对象
+   */
+  this.getInstrumentMap = function(data) {
+    var instrumentID = lang.isString(data) ? data : data.InstrumentID;
+    return this.instrumentMap[instrumentID];
+  };
+  /**
+   * @param {String|Object} data 合约代码或包含合约代码的对象
    */
   this.getOrderMap = function(data) {
   	var instrumentID = lang.isString(data) ? data : data.InstrumentID;
   	return this.orderMap[instrumentID];
   };
   /**
-   * @param data {String|Object} 合约代码或包含合约代码的对象
+   * @param {String|Object} data 合约代码或包含合约代码的对象
    */
   this.getTradeMap = function(data) {
   	var instrumentID = lang.isString(data) ? data : data.InstrumentID;
   	return this.tradeMap[instrumentID];
   };
   /**
-   * @param data {String|Object} 合约代码或包含合约代码的对象
+   * @param {String|Object} data 合约代码或包含合约代码的对象
    * @return {Object} 某个合约的净持仓和持仓均价, 字段说明如下:
    * {
 	 *		pos: 2 || -2, // 持仓数量, 正数指净持仓为多单, 负数指净持仓为空单, 0表示空仓

@@ -17,7 +17,7 @@ function Engine() {
   };
 
 	/**
-   * @param order {object} 订单, 用于填充Order实例, 需要提供如下字段:
+   * @param {Object} order 订单, 用于填充Order实例, 需要提供如下字段:
    * {
 	 *		InstrumentID: 'rb1710', // 合约
 	 *		Direction: dict.Direction_Buy || dict.Direction_Sell, // 买卖
@@ -52,7 +52,7 @@ function Engine() {
   };
 
   /**
-   * @param order {object} 订单
+   * @param {Object} order 订单
    * 撤单
    */
   this.cancelOrder = function(order) {
