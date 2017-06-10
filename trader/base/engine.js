@@ -22,11 +22,7 @@ function Engine(account) {
 	var StrategyClass = require('../strategy/' + strategy.strategyName);
 	this.strategy = new StrategyClass(strategy);
 
-	// 默认指标周期为1分钟
-	this.defaultPeriod = {
-		type: 'minute',
-		value: 1
-	};
+  this.periodValue = 1; // 交易引擎始终生成1分钟K线
 
 	this.localOrderRef = 0;
 }
@@ -46,25 +42,16 @@ function Engine(account) {
 		logger.info('%s start!', this.engineName);
 	};
 
-	this.setPeriod = function(period) {
-		this.defaultPeriod = period;
-	};
-
 	this.onTick = function(tick) {
-		// tick.moment = moment(tick.LogTime);
-
-		// tick.datetime = tick.moment.format(constant.pattern_datetime);
-		// tick.date = tick.moment.format(constant.pattern_date);
-		// tick.time = tick.moment.format(constant.pattern_time);
-
-		var periodDatetime = this.getPeriodDatetimeByPeriod(tick.LogTime, this.defaultPeriod);
+		var periodDatetime = this.getPeriodDatetimeByPeriod(tick.LogTime, this.periodValue);
 		var instmap = this.strategy.instrumentMap[tick.InstrumentID];
 		var bar = instmap.bar;
 
 		if (periodDatetime != bar.periodDatetime) {
 			if (bar.periodDatetime) {
 				instmap.lastbar = bar;
-				this.onLastMinuteBar(instmap.lastbar, tick);
+        // 当小节收盘或其他各种收盘时交易所仍会推送多余的tick过来, 这里可以通过bar的成交量来过滤掉 
+				bar.volume && this.onLastBar(bar, tick);
 			}
 
 			bar = new Bar();
@@ -96,17 +83,17 @@ function Engine(account) {
       bar.turnover = tick.Turnover;
 		}
 
-		this.onCurrentMinuteBarAndTick(bar, instmap.lastbar, tick, instmap.barList, this);
+		bar.volume && this.onCurrentBarAndTick(bar, instmap.lastbar, tick, instmap.barList, this);
 	};
 
 	/**
 	 * 1分钟周期指标, 前一分钟bar
 	 * 只有一分钟走完之后才会计算这一分钟的ma和macd指标
 	 */
-	this.onLastMinuteBar = function(lastbar, tick) {
+	this.onLastBar = function(lastbar) {
 		lastbar.settlement = lastbar.turnover / lastbar.closeVolume / this.strategy.product[lastbar.productID].VolumeMultiple;
 
-		var instmap = this.strategy.instrumentMap[tick.InstrumentID];
+		var instmap = this.strategy.instrumentMap[lastbar.instrumentID];
 
 		instmap.barList.push(lastbar);
 		
@@ -132,8 +119,10 @@ function Engine(account) {
 		lastbar.macd = macdList[macdList.length - 1] || null;
 		lastbar.signalLine = signalLineList[signalLineList.length - 1] || null;
 		lastbar.histogram = histogramList[histogramList.length - 1] || null;
+    lastbar.histogram && (lastbar.histogram = lastbar.histogram * 2);
 
-		this.strategy.onLastMinuteBar(lastbar, tick, instmap.barList, this);
+		this.strategy.onLastBar(lastbar, instmap.barList, this);
+    this.strategy.buildLastPeriodBar(lastbar);
 
 		// 保存指标到数据库, 供交易前预加载进来使用, 省去再次计算的时间
 		// 只有实盘时才会保存, 回测时不用保存
@@ -153,37 +142,24 @@ function Engine(account) {
 	 * 到这一步时, 前一分钟bar所有需要的技术指标都已计算完成
 	 * 具体交易逻辑应该写在这里
 	 */
-	this.onCurrentMinuteBarAndTick = function(bar, lastbar, tick, barList, engine) {
-		this.strategy.onCurrentMinuteBarAndTick(bar, lastbar, tick, barList, engine);
+	this.onCurrentBarAndTick = function(bar, lastbar, tick, barList, engine) {
+		this.strategy.onCurrentBarAndTick(bar, lastbar, tick, barList, engine);
 	};
 
 
 	/**
 	 * @param {Integer} logTime
-	 * @param {Object} period
+	 * @param {Number} periodValue 几分钟K线
 	 * @return {String}
 	 * 计算指标周期的时间, 目前只支持 秒和分钟的周期
 	 */
-	this.getPeriodDatetimeByPeriod = function(logTime, period) {
+	this.getPeriodDatetimeByPeriod = function(logTime, periodValue) {
     var date = new Date(logTime);
-    var ret;
-    switch(period.type) {
-      case 'second':
-        var seconds = date.getSeconds();
-        var secondInteger = parseInt(seconds / period.value);
-        date.setSeconds(secondInteger * period.value);
-        ret = moment(date).format(constant.pattern_secondBarPeriod);
-        break;
-      case 'minute':
-      default:
-        var minutes = date.getMinutes();
-        var minuteInteger = parseInt(minutes / period.value);
-        date.setMinutes(minuteInteger * period.value);
-        ret = moment(date).format(constant.pattern_minuteBarPeriod);
-        break;
-    }
 
-    return ret;
+    var minutes = date.getMinutes();
+    var minuteInteger = parseInt(minutes / periodValue);
+    date.setMinutes(minuteInteger * periodValue);
+    return moment(date).format(constant.pattern_minuteBarPeriod);
   };
 
   this.nOrderRef = function() {
@@ -299,6 +275,17 @@ function Engine(account) {
   	// 转发给策略
   	this.strategy.onPosition(data, rsp, nRequestID, bIsLast);
   };
+
+  // 是否可交易
+  // this.isTradable = function(productID) {
+  //   // 历史回测始终返回true
+  //   if (this.engineName === dict.EngineName_Backtest) {
+  //     return true;
+  //   }
+
+  //   var pdt = this.strategy.product[productID];
+  //   return pdt.InstrumentStatus && pdt.InstrumentStatus === dict.InstrumentStatus_Continous;
+  // };
 
 }).call(Engine.prototype);
 

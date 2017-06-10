@@ -1,27 +1,8 @@
-const ntevent = require('../lib/ntevent');
 const httpHelper = require('../lib/httphelper');
 const httpCfg = require('../config/httpcfg.json');
 const object = require('iguzhi/object');
 
-var exchangeMap = {};
-var productMap = {};
-
-ntevent.on('/trade/OnRspQryExchange', function(data, bIsLast) {
-	exchangeMap[data.ExchangeID] = data;
-});
-
-ntevent.on('/trade/OnRspQryProduct', function(data, bIsLast) {
-	var exchange = exchangeMap[data.ExchangeID];
-	data.ExchangeName = exchange.ExchangeName;
-	productMap[data.ProductID] = data;
-
-	bIsLast && addProductExtraFields();
-});
-
-ntevent.on('/trade/OnRtnInstrumentStatus', function(data) {
-	var d = productMap[data.InstrumentID];
-	d && (d.InstrumentStatus = data.InstrumentStatus);
-});
+var productMap = require('../trader/localproduct');
 
 function addProductExtraFields() {
 	httpHelper.get(httpCfg.urlMap.productList, httpCfg.timeout, function(err, data) {
@@ -45,8 +26,13 @@ function addProductExtraFields() {
 				pdt.declareFee = p.declareFee;
 				pdt.chargeMethod = p.chargeMethod;
 			}
+			// else {
+			// 	console.log('unhandled product: %j', pdt);
+			// }
 		});
+
+		console.dir(productMap);
 	});
 }
 
-module.exports = productMap;
+addProductExtraFields();

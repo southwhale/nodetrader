@@ -28,7 +28,7 @@ function Trade(ctp, userID) {
 	};
 	// 请求查询交易所响应
 	this.OnRspQryExchange = function(data, rsp, nRequestID, bIsLast) {
-		ntevent.emit('/trade/OnRspQryExchange', data);
+		ntevent.emit('/trade/OnRspQryExchange', data, bIsLast);
 		// 查询产品信息
 		if (bIsLast) {
 			var me = this;
@@ -40,7 +40,7 @@ function Trade(ctp, userID) {
 	};
 	// 请求查询产品响应
 	this.OnRspQryProduct = function(data, rsp, nRequestID, bIsLast) {
-		ntevent.emit('/trade/OnRspQryProduct', data);
+		ntevent.emit('/trade/OnRspQryProduct', data, bIsLast);
 		bIsLast && ntevent.emit('/market/SubscribeMarketData', this.ctp);
 	};
 	// 报单通知
@@ -55,6 +55,22 @@ function Trade(ctp, userID) {
 	  ntevent.emit('/trade/OnRtnTrade', data);
 	};
 
+	// 合约交易状态通知
+	this.OnRtnInstrumentStatus = function(data) {
+	 // {
+	 //    "ExchangeID": "DCE", 
+	 //    "ExchangeInstID": "i", 
+	 //    "SettlementGroupID": "SG01", 
+	 //    "InstrumentID": "i", 
+	 //    "InstrumentStatus": "5", 
+	 //    "TradingSegmentSN": 0, 
+	 //    "EnterTime": "20:59:00", 
+	 //    "EnterReason": "1"
+	 // }
+	 ntevent.emit('/trade/OnRtnInstrumentStatus', data);
+	 logger.info('OnRtnInstrumentStatus: %j', data);
+	};
+
 	// 报单操作请求响应
 	this.OnRspOrderAction = function(data, rsp, nRequestID, bIsLast) {
 		ntevent.emit('/trade/OnRspOrderAction', data, rsp,  nRequestID, bIsLast);
@@ -67,8 +83,8 @@ function Trade(ctp, userID) {
 
 	// 请求查询投资者持仓响应
 	this.OnRspQryInvestorPosition = function(data, rsp, nRequestID, bIsLast) {
-		logger.info('OnRspQryInvestorPosition: %j, %j, %s, %s',  data, rsp, nRequestID, bIsLast);
 		ntevent.emit('/trade/OnRspQryInvestorPosition', data, rsp, nRequestID, bIsLast);
+		logger.info('OnRspQryInvestorPosition: %j, %j, %s, %s',  data, rsp, nRequestID, bIsLast);
 	};
 
 	this.OnRtnFromFutureToBankByFuture = function(data) {

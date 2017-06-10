@@ -4,6 +4,7 @@
 		"tradeInstrumentIDList": ["zn1707", "ru1709"],
 		"subscribeInstrumentIDList": ["zn1707", "ru1709", "cu1707", "rb1710", "T1709", "TF1709"],
 		"initDays": 22,
+		"periodValue": 1,
 		"param": {
 			"param1": "**",
 			"param2": "**",
@@ -15,6 +16,7 @@
 		"tradeInstrumentIDList": ["zn1707", "ru1709"],
 		"subscribeInstrumentIDList": ["zn1707", "ru1709", "cu1707", "rb1710", "T1709", "TF1709"],
 		"initDays": 22,
+		"periodValue": 1,
 		"param": {
 			"param1": "**",
 			"param2": "**",

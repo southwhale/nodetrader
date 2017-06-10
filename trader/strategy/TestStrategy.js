@@ -16,7 +16,7 @@ function TestStrategy() {
 	 * 到这一步时, 前一分钟bar所有需要的技术指标都已计算完成
 	 * 具体交易逻辑应该写在这里
 	 */
-	this.onCurrentMinuteBarAndTick = function(bar, lastbar, tick, barList, engine) {
+	this.onCurrentBarAndTick = function(bar, lastbar, tick, barList, engine) {
 		
 	};
 
@@ -24,9 +24,16 @@ function TestStrategy() {
 	 * 1分钟周期指标, 前一分钟bar
 	 * 这里已经完成了对lastbar各指标的计算
 	 */
-	this.onLastMinuteBar = function(lastbar, tick, barList, engine) {
+	this.onLastBar = function(lastbar, barList, engine) {
 		
 	};
+
+	/**
+   * periodValue分钟周期指标, 前一个periodBar
+   */
+  this.onLastPeriodBar = function(lastPeriodBar) {
+
+  };
 
 	/**
    * 报单通知, 订单状态发生变化时的响应

@@ -111,7 +111,20 @@ var dict = {
 	ExchangeID_SHFE: 'SHFE', // 上期所
 	ExchangeID_DCE: 'DCE', // 大商所
 	ExchangeID_CZCE: 'CZCE', // 郑商所
-	ExchangeID_CFFEX: 'CFFEX' // 中金所
+	ExchangeID_CFFEX: 'CFFEX', // 中金所
+
+	InstrumentStatus_BeforeTrading: '0', // 开盘前
+	InstrumentStatus_NoTrading: '1', // 非交易
+	InstrumentStatus_Continous: '2', // 连续交易
+	InstrumentStatus_AuctionOrdering: '3', // 集合竞价报单
+	InstrumentStatus_AuctionBalance: '4', // 集合竞价价格平衡
+	InstrumentStatus_AuctionMatch: '5', // 集合竞价撮合
+	InstrumentStatus_Closed: '6', // 收盘
+
+	EngineName_Base: 'BaseEngine',
+	EngineName_Firm: 'FirmEngine',
+	EngineName_Backtest: 'BacktestEngine',
+	EngineName_Firmtest: 'FirmtestEngine'
 };
 
 module.exports = dict;

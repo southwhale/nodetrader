@@ -40,6 +40,10 @@ function Engine() {
    * 发送订单
    */
   this.sendOrder = function(order) {
+    // if (!this.isTradable(getProductID(order.InstrumentID))) {
+    //   return;
+    // }
+
   	var o = new Order();
 
   	o.OrderPriceType = dict.PriceType_LimitPrice;
@@ -75,6 +79,10 @@ function Engine() {
    * 撤单
    */
   this.cancelOrder = function(order) {
+    // if (!this.isTradable(getProductID(order.InstrumentID))) {
+    //   return;
+    // }
+
     var ctp = this.ctp;
 
     var data = {
@@ -110,6 +118,10 @@ function Engine() {
 
     ctp.td.ReqQryInvestorPosition(data, ctp.nRequestID());
   };
+
+  // function getProductID(instrumentID) {
+  //   return instrumentID.replace(/\d+/, '');
+  // }
 
 }).call(Engine.prototype);
 
