@@ -3,6 +3,6 @@
   "encoding": "utf-8",
   "timeout": 2000,
   "urlMap": {
-  	"productList": "http://www.iguzhi.cn/api/product?json=true"
+  	"productList": "http://www.iguzhi.cn/api/product"
   }
 }
