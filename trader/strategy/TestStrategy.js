@@ -1,3 +1,5 @@
+// 若想实现新策略, 则只需把该文件copy一份改掉文件名以及相应的类名
+// 所有的策略文件都需放在strategy目录下
 const Class = require('iguzhi/class');
 
 function TestStrategy() {
