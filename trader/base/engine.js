@@ -13,11 +13,11 @@ const strategyCfg = require('../../config/strategy.json');
 
 // 为了适配回测引擎, 这里需要传入account而不是accountID
 function Engine(account) {
-	this.engineName = 'BaseEngine';
+	this.engineName = dict.EngineName_Base;
 
 	this.ctp = ctpmgr.get(account.AccountID);
 
-	var strategy = strategyCfg[account.Strategy || 'DefaultStrategy'];
+	var strategy = strategyCfg[account.Strategy || dict.StrategyName_Default];
 
 	var StrategyClass = require('../strategy/' + strategy.strategyName);
 	this.strategy = new StrategyClass(strategy);

@@ -3,6 +3,7 @@ const sma = require('ta-lib.sma');
 const macd = require('ta-lib.macd');
 const logger = require('../../lib/logger').strategy;
 const moment = require('moment');
+const dict = require('./dict');
 const constant = require('./constant');
 const BarModel = require('../../db/model/bar');
 const Bar= require('./bar');
@@ -17,7 +18,7 @@ const PositionBuffer = require('./positionbuffer');
 //  param: {}
 // }
 function Strategy(strategy) {
-	this.strategyName = 'BaseStrategy';
+	this.strategyName = dict.StrategyName_Base;
 	this.logger = logger;
 
   this.tradeInstrumentIDList = strategy.tradeInstrumentIDList || [];
@@ -66,7 +67,7 @@ function Strategy(strategy) {
   };
 
   this.preload = function(engine) {
-    var endTime = engine.engineName === 'BacktestEngine' 
+    var endTime = engine.engineName === dict.EngineName_Backtest
       ? moment(engine.startDateTime, constant.pattern_datetime).valueOf()
       : new Date().getTime();
 
@@ -111,7 +112,7 @@ function Strategy(strategy) {
   };
 
   this.loadProduct = function(engine) {
-    var productModulePath = engine.engineName === 'FirmEngine' ? '../product' : '../localproduct';
+    var productModulePath = engine.engineName === dict.EngineName_Firm ? '../product' : '../localproduct';
     this.product = require(productModulePath);
   };
 

@@ -6,7 +6,7 @@ const dict = require('../base/dict');
 
 function Engine() {
 	this.$superConstructor(arguments);
-	this.engineName = 'FirmtestEngine';
+	this.engineName = dict.EngineName_Firmtest;
 }
 
 (function() {

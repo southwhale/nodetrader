@@ -1,8 +1,9 @@
 const Class = require('iguzhi/class');
+const dict = require('../base/dict');
 
 function DefaultStrategy() {
 	this.$superConstructor(arguments);
-	this.strategyName = 'DefaultStrategy';
+	this.strategyName = dict.StrategyName_Default;
 }
 
 (function() {

@@ -1,5 +1,4 @@
 const Class = require('iguzhi/class');
-const moment = require('moment');
 
 function TestStrategy() {
 	this.$superConstructor(arguments);

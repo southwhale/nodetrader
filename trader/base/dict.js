@@ -124,7 +124,10 @@ var dict = {
 	EngineName_Base: 'BaseEngine',
 	EngineName_Firm: 'FirmEngine',
 	EngineName_Backtest: 'BacktestEngine',
-	EngineName_Firmtest: 'FirmtestEngine'
+	EngineName_Firmtest: 'FirmtestEngine',
+
+	StrategyName_Base: 'BaseStrategy',
+	StrategyName_Default: 'DefaultStrategy'
 };
 
 module.exports = dict;

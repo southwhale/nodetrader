@@ -8,7 +8,7 @@ const dict = require('../base/dict');
 
 function Engine() {
 	this.$superConstructor(arguments);
-	this.engineName = 'BacktestEngine';
+	this.engineName = dict.EngineName_Backtest;
 
 	this.startDateTime = null; // 格式: 'YYYY/MM/DD HH:mm:ss'
 	this.endDateTime = null; // 格式: 'YYYY/MM/DD HH:mm:ss'
