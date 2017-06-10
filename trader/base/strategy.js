@@ -24,7 +24,7 @@ function Strategy(strategy) {
   this.tradeInstrumentIDList = strategy.tradeInstrumentIDList || [];
   this.subscribeInstrumentIDList = strategy.subscribeInstrumentIDList || strategy.tradeInstrumentIDList || [];
   this.initDays = strategy.initDays || constant.strategy_defaultInitDays;
-  this.periodValue = strategy.periodValue || 1;// 策略的默认指标周期为1分钟
+  this.periodValue = strategy.periodValue || constant.strategy_defaultPeriodValue;
 
   this.param = strategy.param || {};
 

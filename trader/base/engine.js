@@ -17,9 +17,16 @@ function Engine(account) {
 
 	this.ctp = ctpmgr.get(account.AccountID);
 
-	var strategy = strategyCfg[account.Strategy || dict.StrategyName_Default];
+	var strategy = strategyCfg[account.Strategy]
+    || strategyCfg[dict.StrategyName_Default]
+    || {
+      strategyName: dict.StrategyName_Default,
+      initDays: constant.strategy_defaultInitDays,
+      periodValue: constant.strategy_defaultPeriodValue
+    };
 
-	var StrategyClass = require('../strategy/' + strategy.strategyName);
+  var strategyDirPath = strategy.strategyName === dict.StrategyName_Default ? './' : '../strategy/';
+	var StrategyClass = require(strategyDirPath + strategy.strategyName);
 	this.strategy = new StrategyClass(strategy);
 
   this.periodValue = 1; // 交易引擎始终生成1分钟K线

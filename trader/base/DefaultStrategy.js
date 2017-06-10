@@ -1,5 +1,5 @@
 const Class = require('iguzhi/class');
-const dict = require('../base/dict');
+const dict = require('./dict');
 
 function DefaultStrategy() {
 	this.$superConstructor(arguments);
@@ -66,6 +66,6 @@ function DefaultStrategy() {
 
 }).call(DefaultStrategy.prototype);
 
-Class.inherit(DefaultStrategy, require('../base/strategy'));
+Class.inherit(DefaultStrategy, require('./strategy'));
 
 module.exports = DefaultStrategy;
