@@ -25,6 +25,11 @@ ntevent.on('/trade/OnRtnInstrumentStatus', function(data) {
 
 function addProductExtraFields() {
 	httpHelper.get(httpCfg.urlMap.productList, httpCfg.timeout, function(err, data) {
+		if (err) {
+			addProductExtraFields();
+			return;
+		}
+
 		data = JSON.parse(data);
 
 		var map = {};
