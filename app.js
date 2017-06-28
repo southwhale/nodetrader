@@ -16,6 +16,9 @@ switch(engine) {
 	case 'bt':
 		engine = 'backtest';
 		break;
+	case 'm':
+		engine = 'market';
+		break;
 }
 
 require('./trader/' + engine + '/main');

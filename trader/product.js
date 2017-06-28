@@ -51,7 +51,7 @@ function addProductExtraFields() {
 				pdt.chargeMethod = p.chargeMethod;
 			}
 		});
-	});
+	}, httpCfg.encoding, {"User-Agent": httpCfg["User-Agent"]});
 }
 
 module.exports = productMap;

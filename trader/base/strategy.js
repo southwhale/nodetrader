@@ -37,29 +37,33 @@ function Strategy(strategy) {
 	this.tradeMap = {}; // 成交回报的缓存
 	this.positionBuffer = new PositionBuffer();
 
-  var me = this;
-
-  this.subscribeInstrumentIDList.forEach(function(instrumentID) {
-    me.instrumentMap[instrumentID] = {
-      // 1分钟指标
-      lastbar: null, // 上一根bar
-      bar: new Bar(), // 当前bar
-      barList: [],
-      closeList: [],
-      // periodValue分钟指标
-      lastPeriodBar: null,
-      periodBar: new Bar(),
-      periodBarList: [],
-      periodBarCloseList: []
-    };
-
-    me.orderMap[instrumentID] = {};
-    me.tradeMap[instrumentID] = {};
-    me.positionBuffer.init(instrumentID);
-  });
+  this.initContext();
 }
 
 (function() {
+
+  this.initContext = function() {
+    var me = this;
+
+    this.subscribeInstrumentIDList.forEach(function(instrumentID) {
+      me.instrumentMap[instrumentID] = {
+        // 1分钟指标
+        lastbar: null, // 上一根bar
+        bar: new Bar(), // 当前bar
+        barList: [],
+        closeList: [],
+        // periodValue分钟指标
+        lastPeriodBar: null,
+        periodBar: new Bar(),
+        periodBarList: [],
+        periodBarCloseList: []
+      };
+
+      me.orderMap[instrumentID] = {};
+      me.tradeMap[instrumentID] = {};
+      me.positionBuffer.init(instrumentID);
+    });
+  };
 
   this.init = function(engine) {
     this.loadProduct(engine);
@@ -112,7 +116,9 @@ function Strategy(strategy) {
   };
 
   this.loadProduct = function(engine) {
-    var productModulePath = engine.engineName === dict.EngineName_Firm ? '../product' : '../localproduct';
+    var productModulePath =
+      engine.engineName === dict.EngineName_Firm || engine.engineName === dict.EngineName_Market
+      ? '../product' : '../localproduct';
     this.product = require(productModulePath);
   };
 

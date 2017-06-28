@@ -125,6 +125,7 @@ var dict = {
 	EngineName_Firm: 'FirmEngine',
 	EngineName_Backtest: 'BacktestEngine',
 	EngineName_Firmtest: 'FirmtestEngine',
+	EngineName_Market: 'MarketEngine',
 
 	StrategyName_Base: 'BaseStrategy',
 	StrategyName_Default: 'DefaultStrategy'

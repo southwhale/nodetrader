@@ -3,6 +3,7 @@
   "encoding": "utf-8",
   "timeout": 2000,
   "urlMap": {
-  	"productList": "http://www.iguzhi.cn/api/product"
+  	"productList": "http://www.iguzhi.cn/api/product",
+  	"instrumentList": "http://money.finance.sina.com.cn/d/api/openapi_proxy.php/?__s=[[\"qhhq\",\"qbhy\",\"zdf\",1000]]"
   }
 }

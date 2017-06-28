@@ -32,7 +32,7 @@ function addProductExtraFields() {
 		});
 
 		console.dir(productMap);
-	});
+	}, httpCfg.encoding, {"User-Agent": httpCfg["User-Agent"]});
 }
 
 addProductExtraFields();

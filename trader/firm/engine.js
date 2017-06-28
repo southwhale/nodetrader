@@ -1,6 +1,4 @@
 const Class = require('iguzhi/class');
-const BarModel = require('../../db/model/bar');
-const dbLogger = require('../../lib/logger').db;
 const eelogger = require('../../lib/logger').tengine;
 const Order = require('../base/order');
 const dict = require('../base/dict');
@@ -16,17 +14,6 @@ function Engine() {
     var instrumentIDList = this.strategy.subscribeInstrumentIDList;
     eelogger.info("SubscribeMarket: %s", ctp.md.SubscribeMarketData(instrumentIDList, instrumentIDList.length));
   };
-
-	// 保存指标到数据库
-	this.saveBar = function(bar) {
-		// 这里用sequelize实现保存操作
-	  BarModel.create(bar).then(function (p) {
-	    dbLogger.info('save bar to db: %j', p);
-	  })
-	  .catch(function (err) {
-	    dbLogger.error('failed save bar to db: %j', err);
-	  });
-	};
 
 	/**
    * @param {Object} order 订单, 用于填充Order实例, 需要提供如下字段:

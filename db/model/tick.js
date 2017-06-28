@@ -90,14 +90,14 @@ var Tick = db.define(
       'type': Sequelize.DOUBLE,
       'allowNull': false
     },
-    'PreDelta': {
-      'type': Sequelize.DOUBLE,
-      'allowNull': false
-    },
-    'CurrDelta': {
-      'type': Sequelize.DOUBLE,
-      'allowNull': false
-    },
+    // 'PreDelta': {
+    //   'type': Sequelize.DOUBLE,
+    //   'allowNull': false
+    // },
+    // 'CurrDelta': {
+    //   'type': Sequelize.DOUBLE,
+    //   'allowNull': false
+    // },
     'UpdateTime': {
       'type': Sequelize.CHAR(9),
       'allowNull': false
@@ -122,70 +122,70 @@ var Tick = db.define(
       'type': Sequelize.INTEGER,
       'allowNull': false
     },
-    'BidPrice2': {
-      'type': Sequelize.DOUBLE,
-      'allowNull': false
-    },
-    'BidVolume2': {
-      'type': Sequelize.INTEGER,
-      'allowNull': false
-    },
-    'AskPrice2': {
-      'type': Sequelize.DOUBLE,
-      'allowNull': false
-    },
-    'AskVolume2': {
-      'type': Sequelize.INTEGER,
-      'allowNull': false
-    },
-    'BidPrice3': {
-      'type': Sequelize.DOUBLE,
-      'allowNull': false
-    },
-    'BidVolume3': {
-      'type': Sequelize.INTEGER,
-      'allowNull': false
-    },
-    'AskPrice3': {
-      'type': Sequelize.DOUBLE,
-      'allowNull': false
-    },
-    'AskVolume3': {
-      'type': Sequelize.INTEGER,
-      'allowNull': false
-    },
-    'BidPrice4': {
-      'type': Sequelize.DOUBLE,
-      'allowNull': false
-    },
-    'BidVolume4': {
-      'type': Sequelize.INTEGER,
-      'allowNull': false
-    },
-    'AskPrice4': {
-      'type': Sequelize.DOUBLE,
-      'allowNull': false
-    },
-    'AskVolume4': {
-      'type': Sequelize.INTEGER,
-      'allowNull': false
-    },
-    'BidPrice5': {
-      'type': Sequelize.DOUBLE,
-      'allowNull': false
-    },
-    'BidVolume5': {
-      'type': Sequelize.INTEGER,
-      'allowNull': false
-    },
-    'AskPrice5': {
-      'type': Sequelize.DOUBLE,
-      'allowNull': false
-    },
-    'AskVolume5': {
-      'type': Sequelize.INTEGER,
-      'allowNull': false
-    },
+    // 'BidPrice2': {
+    //   'type': Sequelize.DOUBLE,
+    //   'allowNull': false
+    // },
+    // 'BidVolume2': {
+    //   'type': Sequelize.INTEGER,
+    //   'allowNull': false
+    // },
+    // 'AskPrice2': {
+    //   'type': Sequelize.DOUBLE,
+    //   'allowNull': false
+    // },
+    // 'AskVolume2': {
+    //   'type': Sequelize.INTEGER,
+    //   'allowNull': false
+    // },
+    // 'BidPrice3': {
+    //   'type': Sequelize.DOUBLE,
+    //   'allowNull': false
+    // },
+    // 'BidVolume3': {
+    //   'type': Sequelize.INTEGER,
+    //   'allowNull': false
+    // },
+    // 'AskPrice3': {
+    //   'type': Sequelize.DOUBLE,
+    //   'allowNull': false
+    // },
+    // 'AskVolume3': {
+    //   'type': Sequelize.INTEGER,
+    //   'allowNull': false
+    // },
+    // 'BidPrice4': {
+    //   'type': Sequelize.DOUBLE,
+    //   'allowNull': false
+    // },
+    // 'BidVolume4': {
+    //   'type': Sequelize.INTEGER,
+    //   'allowNull': false
+    // },
+    // 'AskPrice4': {
+    //   'type': Sequelize.DOUBLE,
+    //   'allowNull': false
+    // },
+    // 'AskVolume4': {
+    //   'type': Sequelize.INTEGER,
+    //   'allowNull': false
+    // },
+    // 'BidPrice5': {
+    //   'type': Sequelize.DOUBLE,
+    //   'allowNull': false
+    // },
+    // 'BidVolume5': {
+    //   'type': Sequelize.INTEGER,
+    //   'allowNull': false
+    // },
+    // 'AskPrice5': {
+    //   'type': Sequelize.DOUBLE,
+    //   'allowNull': false
+    // },
+    // 'AskVolume5': {
+    //   'type': Sequelize.INTEGER,
+    //   'allowNull': false
+    // },
     'AveragePrice': {
       'type': Sequelize.DOUBLE,
       'allowNull': false
