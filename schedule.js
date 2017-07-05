@@ -48,13 +48,13 @@ schedule.scheduleJob('0 45 20 * * 1-5', function() {
 
 schedule.scheduleJob('0 31 02 * * 2-6', function() {
   logger.info('run schedule @ 0 31 02 * * 2-6!');
-  start();
+  stop();
 });
 
 ////////
 schedule.scheduleJob('0 16 15 * * 1-5', function() {
   logger.info('run schedule @ 0 16 15 * * 1-5!');
-  start();
+  stop();
 });
 
 
