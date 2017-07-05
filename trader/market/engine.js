@@ -38,6 +38,9 @@ function Engine() {
           instrumentIDList.push(d.instrumentid);
         }
       });
+
+      eelogger.info("Subscribing instrumentIDList: %j", instrumentIDList);
+      
       strategy.initContext();
       eelogger.info("SubscribeMarket: %s", ctp.md.SubscribeMarketData(instrumentIDList, instrumentIDList.length));
     });
