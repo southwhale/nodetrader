@@ -49,12 +49,30 @@ function pullFromSina(callback) {
           return d1.instrumentid < d2.instrumentid;
         });
 
-        hot = lessHot = null;
+        
 
         for(var i = 0;i < list.length;i++) {
           var d = list[i];
           if (d.ishot) {
+            // 根据成交量重置主力合约, 扯淡的新浪是不是根据持仓量来识别主力合约的?
+            // 当主力和次主力合约的持仓量相差不多的情况下, 我们会选择交易成交量大的合约
+            var jump = false;
+            for (var j = i + 1;j < list.length;j++) {
+              if (list[j].volume > d.volume) {
+                d.ishot = false;
+                list[j].ishot = true;
+                jump = true;
+                break;
+              }
+            }
+
+            if (jump) {
+              continue;
+            }
+
             list.splice(i + 1, list.length - i - 1);
+
+            hot = lessHot = null;
             list.forEach(function(d) {
               if (d.ishot) {
                 hot = d;
@@ -64,7 +82,7 @@ function pullFromSina(callback) {
               }
             });
             
-            if (hot && lessHot) {
+            if (lessHot) {
               if (hot.volume >= lessHot.volume) {
                 result.push(hot);
                 if (hot.volume / lessHot.volume < constant.collector_volumeTimes) {
@@ -77,6 +95,9 @@ function pullFromSina(callback) {
                   result.push(hot);
                 }
               }
+            }
+            else {
+              result.push(hot);
             }
           }
         }
