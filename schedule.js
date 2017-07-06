@@ -1,40 +1,16 @@
+const shell = require('shelljs');
 const schedule = require('node-schedule');
 const logger = require('./lib/logger').schedule;
-var ctpmgr = require('./lib/ctpmanager');
-
-const object = require('iguzhi/object');
-
-var argv = require('yargs').argv;
-
-var engine = argv.e || argv.engine;
-
-if (!engine) {
-  console.error('缺少参数: --e 或 --engine');
-}
-
-switch(engine) {
-  case 'f':
-    engine = 'firm';
-    break;
-  case 'ft':
-    engine = 'firmtest';
-    break;
-  case 'bt':
-    engine = 'backtest';
-    break;
-  case 'm':
-    engine = 'market';
-    break;
-}
 
 function start() {
-  require('./trader/' + engine + '/main');
+  shell.exec('pm2 start app.js -- --e=m');
+  shell.exit();
 }
 
 function stop() {
-  ctpmgr.disposeAll();
+  shell.exec('pm2 stop all');
+  shell.exit();
 }
-
 
 schedule.scheduleJob('0 45 08 * * 1-5', function() {
   logger.info('run schedule @ 0 45 08 * * 1-5!');
