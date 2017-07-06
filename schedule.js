@@ -1,15 +1,15 @@
 const shell = require('shelljs');
 const schedule = require('node-schedule');
 const logger = require('./lib/logger').schedule;
+const ctpmgr = require('./lib/ctpmanager');
 
 function start() {
   shell.exec('pm2 start app.js -- --e=m');
-  shell.exit();
 }
 
 function stop() {
-  shell.exec('pm2 stop all');
-  shell.exit();
+  ctpmgr.disposeAll();
+  shell.exec('pm2 stop app');
 }
 
 schedule.scheduleJob('0 45 08 * * 1-5', function() {
