@@ -28,7 +28,7 @@ switch(engine) {
 }
 
 function start() {
-  require('./trader/' + engine + '/main').start();
+  require('./trader/' + engine + '/main');
 }
 
 function stop() {

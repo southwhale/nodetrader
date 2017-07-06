@@ -10,14 +10,8 @@ var brokeID = '4500';
 var st = setting[brokeID];
 var accountID = '8010800635';
 
-var startDateTime = '2017/05/22 00:00:00';
+var e = new Engine(st.accountMap[accountID]);
+e.setStartDateTime('2017/05/22 00:00:00');
+e.prepare();
 
-function start() {
-	var e = new Engine(st.accountMap[accountID]);
-	e.setStartDateTime(startDateTime);
-	e.prepare();
-
-	e.start();
-}
-
-exports.start = start;
+e.start();

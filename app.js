@@ -21,4 +21,4 @@ switch(engine) {
 		break;
 }
 
-require('./trader/' + engine + '/main').start();
+require('./trader/' + engine + '/main');
