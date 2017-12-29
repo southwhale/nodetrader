@@ -1,6 +1,4 @@
 // 交易引擎基类
-const sma = require('ta-lib.sma');
-const macd = require('ta-lib.macd');
 const lang = require('iguzhi/lang');
 const ctpmgr = require('../../lib/ctpmanager');
 const ntevent = require('../../lib/ntevent');
@@ -106,27 +104,27 @@ function Engine(account) {
 		
 		instmap.closeList.push(lastbar.close);
 
-		var ma5List = sma(instmap.closeList, 5);
-		var ma10List = sma(instmap.closeList, 10);
-		var ma20List = sma(instmap.closeList, 20);
-		var ma40List = sma(instmap.closeList, 40);
-		var ma60List = sma(instmap.closeList, 60);
+		// var ma5List = sma(instmap.closeList, 5);
+		// var ma10List = sma(instmap.closeList, 10);
+		// var ma20List = sma(instmap.closeList, 20);
+		// var ma40List = sma(instmap.closeList, 40);
+		// var ma60List = sma(instmap.closeList, 60);
 
-		lastbar.ma5 = ma5List[ma5List.length - 1] || null;
-		lastbar.ma10 = ma10List[ma10List.length - 1] || null;
-		lastbar.ma20 = ma20List[ma20List.length - 1] || null;
-		lastbar.ma40 = ma40List[ma40List.length - 1] || null;
-		lastbar.ma60 = ma60List[ma60List.length - 1] || null;
+		// lastbar.ma5 = ma5List[ma5List.length - 1] || null;
+		// lastbar.ma10 = ma10List[ma10List.length - 1] || null;
+		// lastbar.ma20 = ma20List[ma20List.length - 1] || null;
+		// lastbar.ma40 = ma40List[ma40List.length - 1] || null;
+		// lastbar.ma60 = ma60List[ma60List.length - 1] || null;
 
-		var msh = macd(instmap.closeList);
-		var macdList = msh.macd;
-		var signalLineList = msh.signalLine;
-		var histogramList = msh.histogram;
+		// var msh = macd(instmap.closeList);
+		// var macdList = msh.macd;
+		// var signalLineList = msh.signalLine;
+		// var histogramList = msh.histogram;
 
-		lastbar.macd = macdList[macdList.length - 1] || null;
-		lastbar.signalLine = signalLineList[signalLineList.length - 1] || null;
-		lastbar.histogram = histogramList[histogramList.length - 1] || null;
-    lastbar.histogram && (lastbar.histogram = lastbar.histogram * 2);
+		// lastbar.macd = macdList[macdList.length - 1] || null;
+		// lastbar.signalLine = signalLineList[signalLineList.length - 1] || null;
+		// lastbar.histogram = histogramList[histogramList.length - 1] || null;
+  //   lastbar.histogram && (lastbar.histogram = lastbar.histogram * 2);
 
 		this.strategy.onLastBar(lastbar, instmap.barList, this);
     this.strategy.buildLastPeriodBar(lastbar);

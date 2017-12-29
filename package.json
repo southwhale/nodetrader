@@ -11,17 +11,14 @@
     "iguzhi": "~0.0.5",
     "log4js": "^1.1.1",
     "moment": "^2.18.1",
-    "mysql": "^2.13.0",
+    "mysql2": "^1.5.1",
     "node-schedule": "^1.2.1",
     "nodemailer": "^4.0.1",
-    "sequelize": "^3.30.4",
-    "socket.io": "^1.7.4",
+    "sequelize": "^4.28.6",
+    "socket.io": "^2.0.4",
     "yargs": "^8.0.1",
     "shelljs": "^0.7.8",
     "iconv-lite": "^0.4.17",
-    "bufferhelper": "^0.2.1",
-    "ta-lib.macd": "0.0.4",
-    "ta-lib.sma": "0.0.6",
-    "ta-lib.sum": "0.0.2"
+    "bufferhelper": "^0.2.1"
   }
 }

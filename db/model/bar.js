@@ -55,7 +55,7 @@ var Bar = db.define(
     'openInterest': {
       'type': Sequelize.INTEGER,
       'allowNull': false
-    },
+    }/*,
     'settlement': { // 分时图黄线均价, 也就是实时的结算价
       'type': Sequelize.DOUBLE,
       'allowNull': false
@@ -91,7 +91,7 @@ var Bar = db.define(
     'histogram': {
       'type': Sequelize.DOUBLE,
       'allowNull': true
-    }
+    }*/
   },
   {
     // 自定义表名
