@@ -1,9 +1,9 @@
 {
-	"4040": {
+	"4500": {
 		"flowpath": "./con",
-		"BrokerID": "4040",
-	  	"MdURL": "tcp://180.166.103.21:51213",
-	  	"TdURL": "tcp://180.166.103.21:51205",
+		"BrokerID": "4500",
+	  "MdURL": "tcp://180.166.45.116:41213",
+	  "TdURL": "tcp://180.166.45.116:41205",
 		"defaultRemindLossList": [
 			{
 				"at": 500,
@@ -15,30 +15,22 @@
 			}
 		],
 		"accountMap": {
-			"369888": {
-				"UserID": "369888",
-				"Password": "123456",
-				"FundPassword": "123456",
+			"8010800635": {
+				"UserID": "8010800635",
+				"Password": "635635",
+				"FundPassword": "201288",
 				"BankID": "5",
-				"Trader": "交易员名字",
-				"Email": "交易员邮箱地址",
-				"Strategy": "TestStrategy",
+				"Trader": "Wei(No Night Trade)",
+				"Email": "383523223@qq.com",
+				"Strategy": "",
 				"Stop": {
-					"at": 2000,
+					"at": 500,
 					"type": "fund",
-					"outFund": false
+					"outFund": true
 				},
 				"RemindLossList": [
 		  		{
-		  			"at": 500,
-		  			"type": "fund"
-		  		},
-		  		{
-		  			"at": 1000,
-		  			"type": "fund"
-		  		},
-		  		{
-		  			"at": 1500,
+		  			"at": 300,
 		  			"type": "fund"
 		  		}
 		  	]

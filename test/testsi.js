@@ -1,6 +1,6 @@
 const httpHelper = require('../lib/httphelper');
 const httpCfg = require('../config/httpcfg.json');
-const object = require('iguzhi/object');
+const _ = require('lodash');
 const constant = require('../trader/base/constant');
 const dict = require('../trader/base/dict');
 
@@ -45,7 +45,7 @@ function pullsi(callback) {
       });
 
       
-      object.forEach(instrumentMap, function(list, code) {
+      _.forEach(instrumentMap, function(list, code) {
         list.sort(function(d1, d2) {
           return d1.instrumentid < d2.instrumentid;
         });

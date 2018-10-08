@@ -1,6 +1,6 @@
 const httpHelper = require('../lib/httphelper');
 const httpCfg = require('../config/httpcfg.json');
-const object = require('iguzhi/object');
+const _ = require('lodash');
 
 var productMap = require('../trader/localproduct');
 
@@ -13,7 +13,7 @@ function addProductExtraFields() {
 			map[pdt.code] = pdt;
 		});
 
-		object.forEach(productMap, function(pdt, productID) {
+		_.forEach(productMap, function(pdt, productID) {
 			var p = map[productID.toUpperCase()];
 			if (p) {
 				pdt.tickDecimal = p.tickDecimal;

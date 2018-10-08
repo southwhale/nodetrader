@@ -1,5 +1,4 @@
 // 模拟交易所撮合成交
-const object = require('iguzhi/object');
 const ntevent = require('../../lib/ntevent');
 const dict = require('../base/dict');
 const moment = require('moment');

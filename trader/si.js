@@ -1,7 +1,7 @@
 const httpHelper = require('../lib/httphelper');
 const httpCfg = require('../config/httpcfg.json');
 const constant = require('./base/constant');
-const object = require('iguzhi/object');
+const _ = require('lodash');
 
 function pullFromSina(callback) {
   httpHelper.get(httpCfg.urlMap.instrumentList, httpCfg.timeout, function (err, data) {
@@ -44,7 +44,7 @@ function pullFromSina(callback) {
       });
 
       
-      object.forEach(instrumentMap, function(list, code) {
+      _.forEach(instrumentMap, function(list, code) {
         list.sort(function(d1, d2) {
           return d1.instrumentid < d2.instrumentid;
         });

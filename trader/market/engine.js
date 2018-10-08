@@ -4,7 +4,6 @@ const dbLogger = require('../../lib/logger').db;
 const eelogger = require('../../lib/logger').tengine;
 const dict = require('../base/dict');
 const si = require('../si');
-const object = require('iguzhi/object');
 
 function Engine() {
 	this.$superConstructor(arguments);

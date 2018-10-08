@@ -1,6 +1,6 @@
 // 持仓缓存类
 const dict = require('./dict');
-const lang = require('iguzhi/lang');
+const _ = require('lodash');
 
 function PositionBuffer() {
 	this.map = {};
@@ -49,7 +49,7 @@ function PositionBuffer() {
 	};
 
 	this.get = function(data) {
-		var instrumentID = lang.isString(data) ? data : data.InstrumentID;
+		var instrumentID = _.isString(data) ? data : data.InstrumentID;
 		return this.map[instrumentID];
 	};
 

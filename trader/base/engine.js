@@ -1,5 +1,5 @@
 // 交易引擎基类
-const lang = require('iguzhi/lang');
+const _ = require('lodash');
 const ctpmgr = require('../../lib/ctpmanager');
 const ntevent = require('../../lib/ntevent');
 const logger = require('../../lib/logger').tengine;
@@ -131,7 +131,7 @@ function Engine(account) {
 
 		// 保存指标到数据库, 供交易前预加载进来使用, 省去再次计算的时间
 		// 只有实盘时才会保存, 回测时不用保存
-		if (lang.isFunction(this.saveBar)) {
+		if (_.isFunction(this.saveBar)) {
 			this.saveBar(lastbar);
 		}
 
