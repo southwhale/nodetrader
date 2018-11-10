@@ -1,9 +1,0 @@
-{
-  "User-Agent": "Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2490.86 Safari/537.36",
-  "encoding": "utf-8",
-  "timeout": 2000,
-  "urlMap": {
-  	"productList": "http://www.iguzhi.cn/api/product",
-  	"instrumentList": "http://money.finance.sina.com.cn/d/api/openapi_proxy.php/?__s=[[\"qhhq\",\"qbhy\",\"zdf\",1000]]"
-  }
-}
