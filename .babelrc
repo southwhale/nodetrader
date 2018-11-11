@@ -1,0 +1,25 @@
+{
+  "presets": [
+    [
+      "env",
+      {
+        "targets": {
+          "node": "current"
+        }
+      }
+    ]
+  ],
+  "plugins": [
+    [
+      "module-resolver",
+      {
+        "root": ["./src"],
+        "alias": {
+          "logger": "./src/util/logger",
+          "config": "./src/config",
+          "util": "./src/util"
+        }
+      }
+    ]
+  ]
+}

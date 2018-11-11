@@ -1,0 +1,40 @@
+{
+  "name": "nodetrader",
+  "version": "0.0.1",
+  "description": "a machine trader with nodejs",
+  "main": "app.js",
+  "scripts": {
+    "dev": "node ./app",
+    "prod": "cross-env NODE_ENV=prod node ./app",
+    "start": "cross-env NODE_ENV=prod node ./app",
+    "test": "node ./test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iamweilee/nodetrader.git"
+  },
+  "keywords": [
+    "nodetrader"
+  ],
+  "author": "numdance",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/iamweilee/nodetrader/issues"
+  },
+  "homepage": "https://github.com/iamweilee/nodetrader#readme",
+  "dependencies": {
+    "edonctp": "^0.2.0",
+    "lodash": "^4.17.11",
+    "log4js": "^3.0.6",
+    "moment": "^2.22.2",
+    "mysql2": "^1.5.3",
+    "sequelize": "^4.38.0"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-plugin-module-resolver": "^3.1.1",
+    "babel-preset-env": "^1.7.0",
+    "babel-register": "^6.26.0",
+    "cross-env": "^5.2.0"
+  }
+}
